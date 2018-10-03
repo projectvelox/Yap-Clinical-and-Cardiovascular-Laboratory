@@ -1,61 +1,49 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-	<meta name="robots" content="noindex, nofollow" />
-	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
-	<title>YCCL - Yap Clinical and Cardiovascular Laboratories</title>
-	<link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
-</head>
+<!-- Head -->
+<?php include 'views/partials/header.php'?>
 <body>
 
 	<!-- Modal -->
 	<div id="loginModal" class="modal fade" role="dialog">
-	  <div class="modal-dialog">
+		<div class="modal-dialog">
 
-	    <!-- Modal content-->
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	        <h4 class="modal-title">Login Modal</h4>
-	      </div>
-	      <div class="modal-body">
-	        <p>Some text in the modal.</p>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-	      </div>
-	    </div>
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Login in to your account</h4>
+				</div>
+				<div class="modal-body">
+					<form id="LoginForm">
+		                <!-- Username -->
+		                <div class="form-group">
+		                    <input type="text"
+		                           class="form-control"
+		                           name="username"
+		                           placeholder="Enter your username">
+		                </div>
 
-	  </div>
-	</div>
-
-	<!-- Navbar -->
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span> 
-				</button>
-				<a class="navbar-brand" href="#">YCCL</a>
-			</div>
-			<div class="collapse navbar-collapse" id="myNavbar">
-				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
-					<li><a href="#">About Us</a></li> 
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-					<li><a data-toggle="modal" data-target="#loginModal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-				</ul>
+		                <!-- Password -->
+		                <div class="form-group">
+		                    <input type="password"
+		                           class="form-control"
+		                           name="password"
+		                           placeholder="Enter your password">
+		                </div>
+		                <hr>
+		                <!-- Submit -->
+		                <button type="submit"
+		                        class="btn btn-primary">
+		                    Login
+		                </button>
+		            </form>
+				</div>
 			</div>
 		</div>
-	</nav>
+	</div>
+
+	<?php include 'views/partials/navbar.php'?>
 	
 	<!-- Carousel -->
 	<div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -110,7 +98,41 @@
 		</div>
 		<hr>
 	</div>
-	<script type="text/javascript" src="assets/js/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+		$(document).ready(function () {
+        var Dialog = new BootstrapDialog({
+            buttonClass: 'btn-primary'
+        });
+
+        // Submit Registration Form
+        $('#LoginForm').on('submit', function (e) {
+        	$('#loginModal').modal('hide');
+            e.preventDefault();
+            var serialized_array = $(this).serializeArray();
+            var data = {action: 'login-account'};
+            for(var i = 0; i < serialized_array.length; i++) {
+                var item = serialized_array[i];
+                data[item.name] = item.value;
+            }
+            var preloader = new Dialog.preloader('Logging in');
+            $.ajax({
+                type: 'POST',
+                url: 'config/api.php',
+                data: data
+            }).then(function(data) {
+                if(data.error) Dialog.alert('Login Error', data.error[1]);
+                else {
+                    new Dialog.preloader('Redirecting');
+                    window.location.href = data.redirect;
+                }
+            }).catch(function (error) {
+                Dialog.alert('Registration Error', error.statusText || 'Server Error');
+            }).always(function () {
+                preloader.destroy();
+            });
+        });
+    });
+	</script>
 </body>
 </html>
