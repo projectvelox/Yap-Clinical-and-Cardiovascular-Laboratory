@@ -14,23 +14,23 @@
 				<div class="row">
 					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
-						<p class="yccl-icon-text"><strong>Add/Edit Centers</strong></p>
+						<p class="yccl-icon-text"><strong>Add/Edit<br>Centers</strong></p>
 					</div>
 					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
-						<p class="yccl-icon-text"><strong>Add/Edit Doctors</strong></p>
+						<p class="yccl-icon-text"><strong>Add/Edit<br>Doctors</strong></p>
 					</div>
 					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
-						<p class="yccl-icon-text"><strong>Add/Edit Tests</strong></p>
+						<p class="yccl-icon-text"><strong>Add/Edit<br>Tests</strong></p>
 					</div>
 					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
-						<p class="yccl-icon-text"><strong>Add/Edit Profiles</strong></p>
+						<p class="yccl-icon-text"><strong>Add/Edit<br>Profiles</strong></p>
 					</div>
 					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
-						<p class="yccl-icon-text"><strong>Add/Edit Packages</strong></p>
+						<p class="yccl-icon-text"><strong>Add/Edit<br>Packages</strong></p>
 					</div>
 				</div>
 			</div>
