@@ -23,6 +23,11 @@
 }
 
 .yccl-flex-box h3 { margin-top: 0px; }
+
+.yccl-icon-rotation {
+	padding: 5px;
+}
+
 .yccl-icon-rotation img {
 	height: 80px;
 	margin: 0px auto;

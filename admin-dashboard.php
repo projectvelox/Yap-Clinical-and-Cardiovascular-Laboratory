@@ -12,23 +12,23 @@
 			<div class="col-xs-12 col-md-6">
 				<h3>Master Data</h3><br>
 				<div class="row">
-					<div class="col-xs-12 col-md-3 yccl-icon-rotation">
+					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
 						<p class="yccl-icon-text"><strong>Add/Edit Centers</strong></p>
 					</div>
-					<div class="col-xs-12 col-md-3 yccl-icon-rotation">
+					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
 						<p class="yccl-icon-text"><strong>Add/Edit Doctors</strong></p>
 					</div>
-					<div class="col-xs-12 col-md-3 yccl-icon-rotation">
+					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
 						<p class="yccl-icon-text"><strong>Add/Edit Tests</strong></p>
 					</div>
-					<div class="col-xs-12 col-md-3 yccl-icon-rotation">
+					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
 						<p class="yccl-icon-text"><strong>Add/Edit Profiles</strong></p>
 					</div>
-					<div class="col-xs-12 col-md-3 yccl-icon-rotation">
+					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
 						<img class="img-responsive" src="assets/images/icon-package.png">
 						<p class="yccl-icon-text"><strong>Add/Edit Packages</strong></p>
 					</div>
