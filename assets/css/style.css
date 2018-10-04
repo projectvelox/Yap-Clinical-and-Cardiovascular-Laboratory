@@ -28,6 +28,10 @@
 	padding: 5px;
 }
 
+.yccl-icon-rotation a:hover {
+	text-decoration: none;
+}
+
 .yccl-icon-rotation img {
 	height: 80px;
 	margin: 0px auto;
