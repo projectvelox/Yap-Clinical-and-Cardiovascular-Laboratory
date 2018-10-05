@@ -229,7 +229,7 @@
 
         // Retrieve the data for the packages
         $(document).on("click", "#editModalPackage", function() { 
-        	$varPackageId = $(this).data("packageitemid");
+        	$varPackageItemId = $(this).data("packageitemid");
         	$varPackageCode = $(this).data("id");
         	$varPackageName = $(this).data("name");
         	$varPackagePrice = $(this).data("price");
@@ -237,7 +237,7 @@
         	$varTestName = $(this).data("test-name");
 
         	$('#lblPackageCode').text($varPackageCode + " - " + $varTestName);
-        	$('input[name=formPackageItemId]').val($varPackageId);
+        	$('input[name=formPackageItemId]').val($varPackageItemId);
         	$('input[name=formPackageCode]').val($varPackageCode);
         	$('input[name=formPackageName]').val($varPackageName);
         	$('input[name=formPackagePrice]').val($varPackagePrice.toFixed(2));
