@@ -195,7 +195,8 @@
 
 							echo "
 								<td>
-									<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-description='".$row['package_description']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+									<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-description='".$row['package_description']."' data-price='".$row['package_price']."' data-status='".$row['package_status']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+
 									<button class='btn btn-xs btn-danger' data-id='".$row['package_id']."' id='removeModalPackage'><span class='glyphicon glyphicon-remove'></span></button>
 								</td>
 							";
@@ -224,12 +225,14 @@
         	$varPackageName = $(this).data("name");
         	$varPackageDescription = $(this).data("description");
         	$varPackagePrice = $(this).data("price");
+        	$varPackageStatus = $(this).data("status");
 
         	$('#lblPackageCode').text($varPackageCode + " - " + $varPackageName);
         	$('input[name=formPackageCode]').val($varPackageCode);
         	$('input[name=formPackageName]').val($varPackageName);
         	$('input[name=formPackageDescription]').val($varPackageDescription);
         	$('input[name=formPackagePrice]').val($varPackagePrice.toFixed(2));
+        	$('select[name=formPackageStatus]').val($varPackageStatus);
         	
         	$('#modalEditForm').modal('show');
         });
