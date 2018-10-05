@@ -224,7 +224,7 @@
         });
 
         function RefreshTable() {
-		    $("#tblPackageItems").load("list-packages-item.php #tblPackageItems");
+		    $("#tblPackageItems").load("list-packages-item.php? #tblPackageItems");
 		}
 
         // Retrieve the data for the packages
@@ -249,6 +249,9 @@
 
         // Submit Registration Form
 		$('#PackageForm').on('submit', function (e) {
+			$varPackageCode= $('input[name=formPackageCode]').val();
+        	$varPackageName = $('input[name=formPackageName]').val();
+
 			$('#modalEditForm').modal('hide');
 
             e.preventDefault();
@@ -270,7 +273,8 @@
                     }).then(function(data) {
                         if(data.error) Dialog.alert('Updating Package Error: ' + data.error[0], data.error[1]);
                         else Dialog.alert('Updating Package Successful', data.message,
-                        	function(OK) { RefreshTable() 
+                        	function(OK) { 
+                        		$("#tblPackageItems").load("list-packages-item.php?testStatus=0&name="+$varPackageCode+"&package="+$varPackageName+"&status=0 #tblPackageItems"); 
                         });
                     }).catch(function (error) {
                         Dialog.alert('Updating Package Error', error.statusText || 'Server Error');
