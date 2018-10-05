@@ -125,7 +125,7 @@
         	$varPackageDescription = $(this).data("description");
         	$varPackagePrice = $(this).data("price");
 
-        	$('#lblPackageCode').text($varPackageCode);
+        	$('#lblPackageCode').text($varPackageCode + " - " + $varPackageName);
         	$('input[name=formPackageCode]').val($varPackageCode);
         	$('input[name=formPackageName]').val($varPackageName);
         	$('input[name=formPackageDescription]').val($varPackageDescription);

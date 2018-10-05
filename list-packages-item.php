@@ -34,14 +34,7 @@
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackageName"
-		                    >
-		                </div>
-
-		                <!-- Form Package Description-->
-		                <div class="form-group">
-		                    <input type="text"
-		                           class="form-control"
-		                           name="formPackageDescription"
+		                           disabled 
 		                    >
 		                </div>
 
@@ -50,13 +43,34 @@
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackagePrice"
+		                           disabled 
 		                    >
 		                </div>
+
+		                <!-- Form Test Name -->
+		                <div class="form-group">
+		                    <input type="text"
+		                           class="form-control"
+		                           name="formTestName"
+		                           required 
+		                    >
+		                </div>
+
+		                <!-- Form Test Description -->
+		                <div class="form-group">
+		                      <textarea 
+		                      		class="form-control" 
+		                      		rows="3"
+		                      		name="formTestDescription"
+		                      	>
+		                      </textarea>
+		                </div>
+
 		                <hr>
 		                <!-- Submit -->
 		                <button type="submit"
 		                        class="btn btn-primary">
-		                    Edit Package
+		                    Edit Test
 		                </button>
 		            </form>
 				</div>
@@ -95,11 +109,11 @@
 							echo "<tr>";
 							echo "<td>" . $i . "</td>";
 							echo "<td>" . $row['pi_name'] . "</td>";
-							echo "<td>" . $row['pi_description'] . "</td>";
+							echo "<td style='width:550px;'>" . $row['pi_description'] . "</td>";
 							echo "<td>" . date('d-M-Y g:i A', strtotime($row['pi_createdDate'])) . "</td>";
 							echo "
 							<td>
-								<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+								<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-name='".$row['pi_name']."' data-test-description='".$row['pi_description']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
 							</td>";
 							echo "</tr>";
 						}
@@ -124,14 +138,16 @@
         $(document).on("click", "#editModalPackage", function() { 
         	$varPackageCode = $(this).data("id");
         	$varPackageName = $(this).data("name");
-        	$varPackageDescription = $(this).data("description");
         	$varPackagePrice = $(this).data("price");
+        	$varTestName = $(this).data("test-name");
+        	$varTestDescription = $(this).data("test-description");
 
-        	$('#lblPackageCode').text($varPackageCode);
+        	$('#lblPackageCode').text($varPackageCode + " - " + $varTestName);
         	$('input[name=formPackageCode]').val($varPackageCode);
         	$('input[name=formPackageName]').val($varPackageName);
-        	$('input[name=formPackageDescription]').val($varPackageDescription);
         	$('input[name=formPackagePrice]').val($varPackagePrice.toFixed(2));
+        	$('input[name=formTestName]').val($varTestName);
+        	$('textarea[name=formTestDescription]').val($varTestDescription);
         	
         	$('#modalEditForm').modal('show');
         });
