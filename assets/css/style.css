@@ -3,6 +3,18 @@
 	margin-bottom: 0px;
 }
 
+.badge-success { 
+	color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+
+.badge-danger { 
+	color: #fff;
+    background-color: #ac2925;
+    border-color: #761c19;
+}
+
 .carousel-inner, .carousel, .item { 
 	height: 45vh;
 }

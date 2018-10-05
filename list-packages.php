@@ -199,10 +199,10 @@
 						echo "<td>" . date('d-M-Y g:i A', strtotime($row['package_createdDate'])) . "</td>";
 
 						if($row['package_status']=="2") {
-							echo "<td><span class='label label-success'>Active</span></td>";
+							echo "<td><span class='badge badge-success'>Active</span></td>";
 						}
 						else if ($row['package_status']=="1") {
-							echo "<td><span class='label label-danger'>Disabled</span></td>";
+							echo "<td><span class='badge badge-danger'>Disabled</span></td>";
 						}
 
 						echo "
