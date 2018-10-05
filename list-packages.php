@@ -86,6 +86,7 @@
 		                    <input type="hidden"
 		                           class="form-control"
 		                           name="formPackageCode"
+		                           placeholder="Enter package code" 
 		                    >
 		                </div>
 
@@ -94,6 +95,7 @@
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackageName"
+		                           placeholder="Enter package name" 
 		                    >
 		                </div>
 
@@ -102,6 +104,7 @@
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackageDescription"
+		                           placeholder="Enter package description" 
 		                    >
 		                </div>
 
