@@ -95,6 +95,19 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 
+        case 'delete-package':
+            $packageId = $_POST['packageid'];
+
+            $sqlPackage = "DELETE FROM package_category WHERE package_id='$packageId'";
+            $sqlItem = "DELETE FROM package_item WHERE package_id='$packageId'";
+            
+            $resultPackage = mysqli_query($con,$sqlPackage);
+            $resultItem = mysqli_query($con,$sqlItem);
+
+            if($resultPackage) echo json_encode(['message' => 'Successfully deleted the package <b>'.$_POST['packageid'].'</b>']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
         case 'delete-account':
             $username = $_POST['username'];
 

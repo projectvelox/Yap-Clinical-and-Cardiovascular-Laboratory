@@ -196,6 +196,7 @@
 							echo "
 								<td>
 									<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-description='".$row['package_description']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+									<button class='btn btn-xs btn-danger' data-id='".$row['package_id']."' id='removeModalPackage'><span class='glyphicon glyphicon-remove'></span></button>
 								</td>
 							";
 							echo "</tr>";
@@ -233,6 +234,34 @@
         	$('#modalEditForm').modal('show');
         });
 
+        // Remove the data for the packages
+        $(document).on("click", "#removeModalPackage", function() { 
+        	$varPackageId = $(this).data("id");
+
+        	Dialog.confirm('Are you sure?', 'Are you sure you want to delete this package?', function (yes) {
+                if(yes) {
+                    var preloader = new Dialog.preloader('Deleting');
+                    $.ajax({
+                        type: 'POST',
+                        url: 'config/api.php',
+                        data: {
+                        	packageid: $varPackageId,
+                        	action: 'delete-package'
+                        }
+                    }).then(function(data) {
+                        if(data.error) Dialog.alert('Deleting Package Error: ' + data.error[0], data.error[1]);
+                        else Dialog.alert('Deleting Package Successful', data.message,
+                        	function(OK) { RefreshTable() });
+                    }).catch(function (error) {
+                        Dialog.alert('Deleting Package Error', error.statusText || 'Server Error');
+                    }).always(function () {
+                        preloader.destroy();
+                    });
+                }
+            });
+        });
+
+
         // Submit Registration Form
 		$('#PackageForm').on('submit', function (e) {
 			$('#modalEditForm').modal('hide');
@@ -240,7 +269,7 @@
             e.preventDefault();
             var serialized_array = $(this).serializeArray();
             var data = {
-                action: 'edit-package',
+                action: 'edit-package'
             };
             for(var i = 0; i < serialized_array.length; i++) {
                 var item = serialized_array[i];
