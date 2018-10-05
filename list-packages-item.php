@@ -72,7 +72,7 @@
 		                <div class="form-group">
 		                    <input type="hidden"
 		                           class="form-control"
-		                           name="formPackageId">
+		                           name="formPackageItemId">
 		                </div>
 
 						<!-- Form Package Code-->
@@ -206,7 +206,7 @@
 						}
 						echo "
 						<td>
-							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-packageid='".$row['package_id']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-code='".$row['pi_code']."' data-test-name='".$row['pi_name']."' data-test-price='".$row['pi_price']."' data-test-referencerange='".$row['pi_referencerange']."' data-test-unit='".$row['pi_unit']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-packageitemid='".$row['pi_id']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-code='".$row['pi_code']."' data-test-name='".$row['pi_name']."' data-test-price='".$row['pi_price']."' data-test-referencerange='".$row['pi_referencerange']."' data-test-unit='".$row['pi_unit']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
 						</td>";
 						echo "</tr>";
 					}
@@ -229,7 +229,7 @@
 
         // Retrieve the data for the packages
         $(document).on("click", "#editModalPackage", function() { 
-        	$varPackageId = $(this).data("packageid");
+        	$varPackageId = $(this).data("packageitemid");
         	$varPackageCode = $(this).data("id");
         	$varPackageName = $(this).data("name");
         	$varPackagePrice = $(this).data("price");
@@ -237,7 +237,7 @@
         	$varTestName = $(this).data("test-name");
 
         	$('#lblPackageCode').text($varPackageCode + " - " + $varTestName);
-        	$('input[name=formPackageId]').val($varPackageId);
+        	$('input[name=formPackageItemId]').val($varPackageId);
         	$('input[name=formPackageCode]').val($varPackageCode);
         	$('input[name=formPackageName]').val($varPackageName);
         	$('input[name=formPackagePrice]').val($varPackagePrice.toFixed(2));

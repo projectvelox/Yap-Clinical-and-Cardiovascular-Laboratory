@@ -64,7 +64,7 @@
 
         case 'edit-package-item':
             $date = date('Y-m-d H:i:s');
-            $varPackageId = $_POST['formPackageId'];
+            $varPackageItemId = $_POST['formPackageItemId'];
             $varTestCode = $_POST['formTestCode'];
 
             $sqlRetrieve = "
@@ -89,7 +89,7 @@
                             pi_referencerange='$varTestReferenceRange',
                             pi_unit='$varTestUnit',
                             pi_createdDate='$date'
-                            WHERE package_id='$varPackageId' & pi_code='$varTestCode'";
+                            WHERE pi_id='$varPackageItemId'";
                    
                     $resultUpdate = mysqli_query($con,$sqlUpdate);
 
