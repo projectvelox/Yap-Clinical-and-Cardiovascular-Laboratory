@@ -122,7 +122,17 @@
 										mysqli_close($con);
 								?>
 							</select>
-						</div><hr>
+						</div>
+						
+						<!-- Form Test Status -->
+		                <div class="form-group">
+		                	<label>Test Status:</label>
+		                	<select class="form-control" name="formTestStatus">
+		                		<option disabled selected>Please select an option</option>
+		                		<option value="1">1 - Disabled</option>
+		                		<option value="2">2 - Active</option>
+		                	</select>
+		                </div>
 
 		                <hr>
 		                <!-- Submit -->
@@ -206,7 +216,7 @@
 						}
 						echo "
 						<td>
-							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-packageitemid='".$row['pi_id']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-code='".$row['pi_code']."' data-test-name='".$row['pi_name']."' data-test-price='".$row['pi_price']."' data-test-referencerange='".$row['pi_referencerange']."' data-test-unit='".$row['pi_unit']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-packageitemid='".$row['pi_id']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-status='".$row['pi_status']."' data-test-code='".$row['pi_code']."' data-test-name='".$row['pi_name']."' data-test-price='".$row['pi_price']."' data-test-referencerange='".$row['pi_referencerange']."' data-test-unit='".$row['pi_unit']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
 						</td>";
 						echo "</tr>";
 					}
@@ -235,6 +245,7 @@
         	$varPackagePrice = $(this).data("price");
         	$varTestCode = $(this).data("test-code");
         	$varTestName = $(this).data("test-name");
+        	$varTestStatus = $(this).data("test-status");
 
         	$('#lblPackageCode').text($varPackageCode + " - " + $varTestName);
         	$('input[name=formPackageItemId]').val($varPackageItemId);
@@ -242,7 +253,7 @@
         	$('input[name=formPackageName]').val($varPackageName);
         	$('input[name=formPackagePrice]').val($varPackagePrice.toFixed(2));
         	$('select[name=formTestCode]').val($varTestCode);
-
+        	$('select[name=formTestStatus]').val($varTestStatus);
 			        	
         	$('#modalEditForm').modal('show');
         });

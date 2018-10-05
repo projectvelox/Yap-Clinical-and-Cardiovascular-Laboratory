@@ -66,6 +66,7 @@
             $date = date('Y-m-d H:i:s');
             $varPackageItemId = $_POST['formPackageItemId'];
             $varTestCode = $_POST['formTestCode'];
+            $varTestStatus = $_POST['formTestStatus'];
 
             $sqlRetrieve = "
                 SELECT * 
@@ -88,7 +89,8 @@
                             pi_price='$varTestPrice',
                             pi_referencerange='$varTestReferenceRange',
                             pi_unit='$varTestUnit',
-                            pi_createdDate='$date'
+                            pi_createdDate='$date',
+                            pi_status='$varTestStatus'
                             WHERE pi_id='$varPackageItemId'";
                    
                     $resultUpdate = mysqli_query($con,$sqlUpdate);
