@@ -1,6 +1,7 @@
-<?php 
+<?php 					
 	$getPackageCode = $_GET['name'];
 	$getPackageName = $_GET['package'];
+	$getPackageStatus = $_GET['status']; 
 ?>
 <!DOCTYPE html>
 <html>
@@ -143,11 +144,10 @@
 
 	<div class="container yccl-mt-3">
 		<h2><?php 
-			$status=$_GET['status'];
-			if($status=="1") {
+			if($getPackageStatus=="1") {
 				echo $getPackageCode . " - Add/Edit Tests <span class='badge badge-danger'>Disabled</span>"; 
 			}
-			if($status=="2") {
+			if($getPackageStatus=="2") {
 				echo $getPackageCode . " - Add/Edit Tests <span class='badge badge-success'>Active</span>"; 
 			}
 		?> </h2>
@@ -155,6 +155,12 @@
 			<div class="yccl-display-inlineblock text-left">
 				<p class="yccl-mb-0"><strong>Action:</strong></p>
 				<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCreateForm">Add a new test</button>
+			</div>
+			<div class="yccl-display-inlineblock text-left">
+				<p class="yccl-mb-0"><strong>Sort By:</strong></p>
+				<a href="list-packages-item.php?testStatus=0&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>" class="btn btn-xs btn-info">View All</a>
+				<a href="list-packages-item.php?testStatus=1&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>" class="btn btn-xs btn-success">Active</a>
+				<a href="list-packages-item.php?testStatus=2&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>" class="btn btn-xs btn-danger">Disabled</a>
 			</div>
 		</div><hr>
 
@@ -169,14 +175,18 @@
 						<th>Reference Range</th>
 						<th>Unit of Measure</th>
 						<th>Last Modified</th>
+						<th>Status</th>
 						<th>Edit</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 
 					$i=0;
+					if(empty($_GET['testStatus'])) { $testStatus = ''; }
+					else { $testStatus = $_GET['testStatus']; }
+
 					$con = mysqli_connect("localhost","root","","yccl");
-					$result = mysqli_query($con,"SELECT * FROM view_packagelisting WHERE package_code = '$getPackageCode'");
+					$result = mysqli_query($con,"SELECT * FROM view_packagelisting WHERE package_code = '$getPackageCode' AND pi_status!='$testStatus'");
 					while($row = mysqli_fetch_array($result))
 					{
 						$i++;
@@ -188,6 +198,12 @@
 						echo "<td>" . $row['pi_referencerange'] . "</td>";
 						echo "<td>" . $row['pi_unit'] . "</td>";
 						echo "<td>" . date('d-M-Y g:i A', strtotime($row['pi_createdDate'])) . "</td>";
+						if($row['pi_status']=="2") {
+							echo "<td><span class='badge badge-success'>Active</span></td>";
+						}
+						else if ($row['pi_status']=="1") {
+							echo "<td><span class='badge badge-danger'>Disabled</span></td>";
+						}
 						echo "
 						<td>
 							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-packageid='".$row['package_id']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-code='".$row['pi_code']."' data-test-name='".$row['pi_name']."' data-test-price='".$row['pi_price']."' data-test-referencerange='".$row['pi_referencerange']."' data-test-unit='".$row['pi_unit']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
