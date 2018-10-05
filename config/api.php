@@ -62,6 +62,49 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 
+        case 'edit-package-item':
+            $date = date('Y-m-d H:i:s');
+            $varPackageId = $_POST['formPackageId'];
+            $varTestCode = $_POST['formTestCode'];
+
+            $sqlRetrieve = "
+                SELECT * 
+                FROM test_details
+                WHERE test_code='$varTestCode'
+            ";
+
+            $result = mysqli_query($con,$sqlRetrieve);
+            if($result) {
+                $testdetails = mysqli_fetch_assoc($result);
+                if($testdetails) {
+                    $varTestName = $testdetails['test_name'];
+                    $varTestPrice = $testdetails['test_price'];
+                    $varTestReferenceRange = $testdetails['test_referencerange'];
+                    $varTestUnit = $testdetails['test_unit'];
+
+                    $sqlUpdate = "UPDATE package_item
+                            SET pi_code='$varTestCode', 
+                            pi_name='$varTestName',
+                            pi_price='$varTestPrice',
+                            pi_referencerange='$varTestReferenceRange',
+                            pi_unit='$varTestUnit',
+                            pi_createdDate='$date'
+                            WHERE package_id='$varPackageId'";
+                   
+                    $resultUpdate = mysqli_query($con,$sqlUpdate);
+
+                    if($resultUpdate) echo json_encode(['message' => 'Successfully updated the package details for <b>'.$_POST['formTestCode'].'</b>']);
+                    else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+                }
+
+                else {
+                    echo json_encode(['error' => ['WRONG_TESTCODE', 'Test code does not exist.']]);
+                }
+            }
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+        
+
         case 'add-package':
             $date = date('Y-m-d H:i:s');
             $varPackageCodeNew = $_POST['formPackageCodeNew'];

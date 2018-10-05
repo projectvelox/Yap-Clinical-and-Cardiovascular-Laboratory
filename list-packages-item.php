@@ -66,6 +66,14 @@
 				</div>
 				<div class="modal-body">
 					<form id="PackageForm">
+
+						<!-- Form Package Code-->
+		                <div class="form-group">
+		                    <input type="hidden"
+		                           class="form-control"
+		                           name="formPackageId">
+		                </div>
+
 						<!-- Form Package Code-->
 		                <div class="form-group">
 		                    <input type="hidden"
@@ -151,7 +159,7 @@
 		</div><hr>
 
 		<div class="table-responsive">          
-			<table class="table table-striped" id="tblPackages">
+			<table class="table table-striped" id="tblPackageItems">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -182,7 +190,7 @@
 						echo "<td>" . date('d-M-Y g:i A', strtotime($row['pi_createdDate'])) . "</td>";
 						echo "
 						<td>
-							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-code='".$row['pi_code']."' data-test-name='".$row['pi_name']."' data-test-price='".$row['pi_price']."' data-test-referencerange='".$row['pi_referencerange']."' data-test-unit='".$row['pi_unit']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-packageid='".$row['package_id']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-code='".$row['pi_code']."' data-test-name='".$row['pi_name']."' data-test-price='".$row['pi_price']."' data-test-referencerange='".$row['pi_referencerange']."' data-test-unit='".$row['pi_unit']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
 						</td>";
 						echo "</tr>";
 					}
@@ -200,11 +208,12 @@
         });
 
         function RefreshTable() {
-		    $("#tblPackages").load("list-packages.php #tblPackages");
+		    $("#tblPackageItems").load("list-packages-item.php #tblPackageItems");
 		}
 
         // Retrieve the data for the packages
         $(document).on("click", "#editModalPackage", function() { 
+        	$varPackageId = $(this).data("packageid");
         	$varPackageCode = $(this).data("id");
         	$varPackageName = $(this).data("name");
         	$varPackagePrice = $(this).data("price");
@@ -212,6 +221,7 @@
         	$varTestName = $(this).data("test-name");
 
         	$('#lblPackageCode').text($varPackageCode + " - " + $varTestName);
+        	$('input[name=formPackageId]').val($varPackageId);
         	$('input[name=formPackageCode]').val($varPackageCode);
         	$('input[name=formPackageName]').val($varPackageName);
         	$('input[name=formPackagePrice]').val($varPackagePrice.toFixed(2));
@@ -244,7 +254,8 @@
                     }).then(function(data) {
                         if(data.error) Dialog.alert('Updating Package Error: ' + data.error[0], data.error[1]);
                         else Dialog.alert('Updating Package Successful', data.message,
-                        	function(OK) { RefreshTable() });
+                        	function(OK) { RefreshTable() 
+                        });
                     }).catch(function (error) {
                         Dialog.alert('Updating Package Error', error.statusText || 'Server Error');
                     }).always(function () {
