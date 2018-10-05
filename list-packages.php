@@ -182,7 +182,6 @@
 
 						$con = mysqli_connect("localhost","root","","yccl");
 						$result = mysqli_query($con,"SELECT * FROM package_category WHERE package_status!='$status'");
-						echo "$status";
 						while($row = mysqli_fetch_array($result))
 						{
 							$i++;
