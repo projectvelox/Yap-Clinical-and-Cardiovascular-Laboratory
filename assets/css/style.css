@@ -12,6 +12,7 @@
 	height: 100%;
 }
 
+.yccl-display-inlineblock { display: inline-block; }
 .yccl-flex-box {
 	height: 100px; 
 	width: 100px; 

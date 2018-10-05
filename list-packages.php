@@ -152,65 +152,69 @@
 	<div class="container yccl-mt-3">
 		<h2>Add/Edit Packages</h2>
 		<div class="text-right">
-			<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCreateForm">Add a new package</button>
-			<a href="list-packages.php?status=0" class="btn btn-xs btn-info">View All</a>
-			<a href="list-packages.php?status=1" class="btn btn-xs btn-success">Active</a>
-			<a href="list-packages.php?status=2" class="btn btn-xs btn-danger">Disabled</a>
-		</div>
-		<hr>
-		<div class="row">
-			<div class="table-responsive">          
-				<table class="table table-striped" id="tblPackages">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Package Code</th>
-							<th>Package Name</th>
-							<th>Price</th>
-							<th>Last Modified Time</th>
-							<th>Status</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php 
-						$i=0;
-						
-						if(empty($_GET['status'])) {
-							$status = '';
-						}
-						else { $status = $_GET['status']; }
-
-						$con = mysqli_connect("localhost","root","","yccl");
-						$result = mysqli_query($con,"SELECT * FROM package_category WHERE package_status!='$status'");
-						while($row = mysqli_fetch_array($result))
-						{
-							$i++;
-							echo "<tr>";
-							echo "<td>" . $i . "</td>";
-							echo "<td><a class='btn-xs btn btn-primary' href='list-packages-item.php?name=".$row['package_code']."'>" . $row['package_code'] . "</a></td>";
-							echo "<td>" . $row['package_name'] . "</td>";
-							echo "<td>" . number_format($row['package_price'], 2) . "</td>";
-							echo "<td>" . date('d-M-Y g:i A', strtotime($row['package_createdDate'])) . "</td>";
-
-							if($row['package_status']=="2") {
-								echo "<td><span class='label label-success'>Active</span></td>";
-							}
-							else if ($row['package_status']=="1") {
-								echo "<td><span class='label label-danger'>Disabled</span></td>";
-							}
-
-							echo "
-							<td>
-								<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-description='".$row['package_description']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
-							</td>";
-							echo "</tr>";
-						}
-						mysqli_close($con);
-						?>
-					</tbody>
-				</table>
+			<div class="yccl-display-inlineblock text-left">
+				<p class="yccl-mb-0"><strong>Action:</strong></p>
+				<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCreateForm">Add a new package</button>
 			</div>
+			<div class="yccl-display-inlineblock text-left">
+				<p class="yccl-mb-0"><strong>Sort By:</strong></p>
+				<a href="list-packages.php?status=0" class="btn btn-xs btn-info">View All</a>
+				<a href="list-packages.php?status=1" class="btn btn-xs btn-success">Active</a>
+				<a href="list-packages.php?status=2" class="btn btn-xs btn-danger">Disabled</a>
+			</div>
+		</div><hr>
+		
+		<div class="table-responsive">          
+			<table class="table table-striped" id="tblPackages">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Package Code</th>
+						<th>Package Name</th>
+						<th>Price</th>
+						<th>Last Modified Time</th>
+						<th>Status</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php 
+					$i=0;
+					
+					if(empty($_GET['status'])) {
+						$status = '';
+					}
+					else { $status = $_GET['status']; }
+
+					$con = mysqli_connect("localhost","root","","yccl");
+					$result = mysqli_query($con,"SELECT * FROM package_category WHERE package_status!='$status'");
+					while($row = mysqli_fetch_array($result))
+					{
+						$i++;
+						echo "<tr>";
+						echo "<td>" . $i . "</td>";
+						echo "<td><a class='btn-xs btn btn-primary' href='list-packages-item.php?name=".$row['package_code']."'>" . $row['package_code'] . "</a></td>";
+						echo "<td>" . $row['package_name'] . "</td>";
+						echo "<td>" . number_format($row['package_price'], 2) . "</td>";
+						echo "<td>" . date('d-M-Y g:i A', strtotime($row['package_createdDate'])) . "</td>";
+
+						if($row['package_status']=="2") {
+							echo "<td><span class='label label-success'>Active</span></td>";
+						}
+						else if ($row['package_status']=="1") {
+							echo "<td><span class='label label-danger'>Disabled</span></td>";
+						}
+
+						echo "
+						<td>
+							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-description='".$row['package_description']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+						</td>";
+						echo "</tr>";
+					}
+					mysqli_close($con);
+					?>
+				</tbody>
+			</table>
 		</div>
 	</div>
 	<script type="text/javascript">
