@@ -47,12 +47,14 @@
             $varPackageName = $_POST['formPackageName'];
             $varPackageDescription = $_POST['formPackageDescription'];
             $varPackagePrice = $_POST['formPackagePrice'];
+            $varPackageStatus = $_POST['formPackageStatus'];
 
             $sql = "UPDATE package_category
                     SET package_name='$varPackageName', 
                         package_description='$varPackageDescription', 
                         package_price='$varPackagePrice', 
-                        package_createdDate='$date'
+                        package_createdDate='$date',
+                        package_status='$varPackageStatus'
                     WHERE package_code='$varPackageCode'";
             $result = mysqli_query($con,$sql);
 
@@ -60,6 +62,19 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 
+        case 'add-package':
+            $date = date('Y-m-d H:i:s');
+            $varPackageCodeNew = $_POST['formPackageCodeNew'];
+            $varPackageNameNew = $_POST['formPackageNameNew'];
+            $varPackageDescriptionNew = $_POST['formPackageDescriptionNew'];
+            $varPackagePriceNew = $_POST['formPackagePriceNew'];
+
+            $sql = "INSERT INTO package_category(package_code, package_name, package_description, package_price, package_createdDate) VALUES('$varPackageCodeNew', '$varPackageNameNew', '$varPackageDescriptionNew', '$varPackagePriceNew', '$date')";
+            $result = mysqli_query($con,$sql);
+
+            if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formPackageCodeNew  '].'</b> to the list of packages']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
 
         case 'edit-account':
             $password = $_POST['password'];

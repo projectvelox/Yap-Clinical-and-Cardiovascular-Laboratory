@@ -5,8 +5,81 @@
 
 <body>
 	<?php include 'views/partials/navbar.php'?>
+	<!-- Create Form -->
+	<div id="modalCreateForm" class="modal fade" role="dialog">
+		<div class="modal-dialog">
 
-		<!-- Modal -->
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Add a new package</span></h4>
+				</div>
+				<div class="modal-body">
+					<form id="PackageFormNew">
+						<!-- Form Package Code-->
+		                <div class="form-group">
+		                    <input type="text"
+		                           class="form-control"
+		                           name="formPackageCodeNew"
+		                           placeholder="Enter package code"
+		                           required
+		                    >
+		                </div>
+
+		                <!-- Form Package Name-->
+		                <div class="form-group">
+		                    <input type="text"
+		                           class="form-control"
+		                           name="formPackageNameNew"
+		                           placeholder="Enter package name"
+		                           required
+		                    >
+		                </div>
+
+		                <!-- Form Package Description-->
+		                <div class="form-group">
+		                    <input type="text"
+		                           class="form-control"
+		                           name="formPackageDescriptionNew"
+		                           placeholder="Enter package description"
+		                           required
+		                    >
+		                </div>
+
+		                <!-- Form Package Price -->
+		                <div class="form-group">
+		                    <input type="number"
+		                           class="form-control"
+		                           name="formPackagePriceNew"
+		                           placeholder="Enter package price"
+		                           required
+		                    >
+		                </div>
+
+		                <!-- Form Package Price -->
+		                <div class="form-group">
+		                    <input type="number"
+		                           class="form-control"
+		                           name="formPackagePriceNew"
+		                           placeholder="Enter package price"
+		                           required
+		                    >
+		                </div>
+		                
+		                <hr>
+		                <!-- Submit -->
+		                <button type="submit"
+		                        class="btn btn-primary">
+		                    Edit Package
+		                </button>
+		            </form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Form -->
 	<div id="modalEditForm" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 
@@ -49,6 +122,16 @@
 		                           name="formPackagePrice"
 		                    >
 		                </div>
+
+		                 <!-- Form Package Status -->
+		                <div class="form-group">
+		                	<label>Package Status:</label>
+		                	<select class="form-control" name="formPackageStatus">
+		                		<option disabled selected>Please select an option</option>
+		                		<option value="0">1 - Disabled</option>
+		                		<option value="1">2 - Active</option>
+		                	</select>
+		                </div>
 		                <hr>
 		                <!-- Submit -->
 		                <button type="submit"
@@ -68,7 +151,11 @@
 
 	<div class="container yccl-mt-3">
 		<h2>Add/Edit Packages</h2>
-		<button class="btn btn-xs btn-primary">Add a new package</button>
+		<div class="text-right">
+			<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCreateForm">Add a new package</button>
+			<a href="list-packages.php?status=1" class="btn btn-xs btn-success">Active</a>
+			<a href="list-packages.php?status=0" class="btn btn-xs btn-danger">Disabled</a>
+		</div>
 		<hr>
 		<div class="row">
 			<div class="table-responsive">          
@@ -86,8 +173,15 @@
 					<tbody>
 						<?php 
 						$i=0;
+						
+						if(empty($_GET['status'])) {
+							$status = '1';
+						}
+						else { $status = $_GET['status']; }
+
 						$con = mysqli_connect("localhost","root","","yccl");
-						$result = mysqli_query($con,"SELECT * FROM package_category");
+						$result = mysqli_query($con,"SELECT * FROM package_category WHERE package_status='$status'");
+						echo "$status";
 						while($row = mysqli_fetch_array($result))
 						{
 							$i++;
@@ -162,6 +256,39 @@
                         	function(OK) { RefreshTable() });
                     }).catch(function (error) {
                         Dialog.alert('Updating Package Error', error.statusText || 'Server Error');
+                    }).always(function () {
+                        preloader.destroy();
+                    });
+                }
+            });
+        });
+
+        // Submit Registration Form
+		$('#PackageFormNew').on('submit', function (e) {
+			$('#modalCreateForm').modal('hide');
+
+            e.preventDefault();
+            var serialized_array = $(this).serializeArray();
+            var data = {
+                action: 'add-package'
+            };
+            for(var i = 0; i < serialized_array.length; i++) {
+                var item = serialized_array[i];
+                data[item.name] = item.value;
+            }
+            Dialog.confirm('Are you sure?', 'Are you sure you want to add this newly created package to the list of packages?', function (yes) {
+                if(yes) {
+                    var preloader = new Dialog.preloader('Adding package to the list');
+                    $.ajax({
+                        type: 'POST',
+                        url: 'config/api.php',
+                        data: data
+                    }).then(function(data) {
+                        if(data.error) Dialog.alert('Insertion of Package Errors: ' + data.error[0], data.error[1]);
+                        else Dialog.alert('Added the Package Successfully', data.message,
+                        	function(OK) { RefreshTable() });
+                    }).catch(function (error) {
+                        Dialog.alert('Insertion of Package Error', error.statusText || 'Server Error');
                     }).always(function () {
                         preloader.destroy();
                     });
