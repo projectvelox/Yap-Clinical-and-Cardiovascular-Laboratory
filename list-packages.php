@@ -92,6 +92,7 @@
 
 		                <!-- Form Package Name-->
 		                <div class="form-group">
+		                	<label>Package Name</label>
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackageName"
@@ -101,6 +102,7 @@
 
 		                <!-- Form Package Description-->
 		                <div class="form-group">
+		                	<label>Package Description</label>
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackageDescription"
@@ -110,9 +112,11 @@
 
 		                <!-- Form Package Price -->
 		                <div class="form-group">
+		                	<label>Package Price</label>
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackagePrice"
+		                           placeholder="Enter package price" 
 		                    >
 		                </div>
 
