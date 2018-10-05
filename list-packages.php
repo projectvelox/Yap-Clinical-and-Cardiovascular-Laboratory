@@ -57,16 +57,6 @@
 		                    >
 		                </div>
 
-		                <!-- Form Package Price -->
-		                <div class="form-group">
-		                    <input type="number"
-		                           class="form-control"
-		                           name="formPackagePriceNew"
-		                           placeholder="Enter package price"
-		                           required
-		                    >
-		                </div>
-		                
 		                <hr>
 		                <!-- Submit -->
 		                <button type="submit"
@@ -179,39 +169,39 @@
 				</thead>
 				<tbody>
 					<?php 
-					$i=0;
-					
-					if(empty($_GET['status'])) {
-						$status = '';
-					}
-					else { $status = $_GET['status']; }
+						$i=0;
+						
+						if(empty($_GET['status'])) { $status = ''; }
+						else { $status = $_GET['status']; }
 
-					$con = mysqli_connect("localhost","root","","yccl");
-					$result = mysqli_query($con,"SELECT * FROM package_category WHERE package_status!='$status'");
-					while($row = mysqli_fetch_array($result))
-					{
-						$i++;
-						echo "<tr>";
-						echo "<td>" . $i . "</td>";
-						echo "<td><a class='btn-xs btn btn-primary' href='list-packages-item.php?name=".$row['package_code']."&status=".$row['package_status']."'>" . $row['package_code'] . "</a></td>";
-						echo "<td>" . $row['package_name'] . "</td>";
-						echo "<td>" . number_format($row['package_price'], 2) . "</td>";
-						echo "<td>" . date('d-M-Y g:i A', strtotime($row['package_createdDate'])) . "</td>";
+						$con = mysqli_connect("localhost","root","","yccl");
+						$result = mysqli_query($con,"SELECT * FROM package_category WHERE package_status!='$status'");
+						while($row = mysqli_fetch_array($result))
+						{
+							$i++;
+							echo "<tr>";
+							echo "<td>" . $i . "</td>";
+							echo "<td><a class='btn-xs btn btn-primary' href='list-packages-item.php?name=".$row['package_code']."&status=".$row['package_status']."&package=".$row['package_name']."'>" . $row['package_code'] . "</a></td>";
+							echo "<td>" . $row['package_name'] . "</td>";
+							echo "<td>" . number_format($row['package_price'], 2) . "</td>";
+							echo "<td>" . date('d-M-Y g:i A', strtotime($row['package_createdDate'])) . "</td>";
 
-						if($row['package_status']=="2") {
-							echo "<td><span class='badge badge-success'>Active</span></td>";
+							if($row['package_status']=="2") {
+								echo "<td><span class='badge badge-success'>Active</span></td>";
+							}
+							else if ($row['package_status']=="1") {
+								echo "<td><span class='badge badge-danger'>Disabled</span></td>";
+							}
+
+							echo "
+								<td>
+									<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-description='".$row['package_description']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+								</td>
+							";
+							echo "</tr>";
 						}
-						else if ($row['package_status']=="1") {
-							echo "<td><span class='badge badge-danger'>Disabled</span></td>";
-						}
 
-						echo "
-						<td>
-							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-description='".$row['package_description']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
-						</td>";
-						echo "</tr>";
-					}
-					mysqli_close($con);
+						mysqli_close($con);
 					?>
 				</tbody>
 			</table>
@@ -299,7 +289,9 @@
                     }).then(function(data) {
                         if(data.error) Dialog.alert('Insertion of Package Errors: ' + data.error[0], data.error[1]);
                         else Dialog.alert('Added the Package Successfully', data.message,
-                        	function(OK) { RefreshTable() });
+                        	function(OK) { 
+                        		RefreshTable(); 
+                        	});
                     }).catch(function (error) {
                         Dialog.alert('Insertion of Package Error', error.statusText || 'Server Error');
                     }).always(function () {

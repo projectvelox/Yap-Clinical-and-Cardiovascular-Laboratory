@@ -1,5 +1,6 @@
 <?php 
 	$getPackageCode = $_GET['name'];
+	$getPackageName = $_GET['package'];
 ?>
 <!DOCTYPE html>
 <html>
@@ -154,7 +155,7 @@
 	<ul class="breadcrumb">
 		<li><a href="admin-dashboard.php">Dashboard</a></li>
 		<li><a href="list-packages.php">Add/Edit Packages</a></li>
-		<li><?php echo $getPackageCode; ?></li>
+		<li><?php echo $getPackageCode . " - " . $getPackageName ?></li>
 	</ul>
 
 	<div class="container yccl-mt-3">
@@ -170,7 +171,7 @@
 		<div class="text-right">
 			<div class="yccl-display-inlineblock text-left">
 				<p class="yccl-mb-0"><strong>Action:</strong></p>
-				<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCreateForm">Add a new package</button>
+				<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCreateForm">Add a new test</button>
 			</div>
 		</div><hr>
 
