@@ -96,7 +96,7 @@
 							echo "<td>" . $i . "</td>";
 							echo "<td>" . $row['pi_name'] . "</td>";
 							echo "<td>" . $row['pi_description'] . "</td>";
-							echo "<td>" . date('m-d-Y g:i A', strtotime($row['pi_createdDate'])) . "</td>";
+							echo "<td>" . date('d-M-Y g:i A', strtotime($row['pi_createdDate'])) . "</td>";
 							echo "
 							<td>
 								<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
