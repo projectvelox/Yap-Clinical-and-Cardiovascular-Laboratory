@@ -153,7 +153,7 @@
 		<h2>Add/Edit Packages</h2>
 		<div class="text-right">
 			<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCreateForm">Add a new package</button>
-			<a href="list-packages.php?status=0" class="btn btn-xs btn-primary">View All</a>
+			<a href="list-packages.php?status=0" class="btn btn-xs btn-info">View All</a>
 			<a href="list-packages.php?status=1" class="btn btn-xs btn-success">Active</a>
 			<a href="list-packages.php?status=2" class="btn btn-xs btn-danger">Disabled</a>
 		</div>
