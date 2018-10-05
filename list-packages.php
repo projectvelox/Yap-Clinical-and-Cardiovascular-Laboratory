@@ -128,8 +128,8 @@
 		                	<label>Package Status:</label>
 		                	<select class="form-control" name="formPackageStatus">
 		                		<option disabled selected>Please select an option</option>
-		                		<option value="0">1 - Disabled</option>
-		                		<option value="1">2 - Active</option>
+		                		<option value="1">1 - Disabled</option>
+		                		<option value="2">2 - Active</option>
 		                	</select>
 		                </div>
 		                <hr>
@@ -250,7 +250,7 @@
             e.preventDefault();
             var serialized_array = $(this).serializeArray();
             var data = {
-                action: 'edit-package'
+                action: 'edit-package',
             };
             for(var i = 0; i < serialized_array.length; i++) {
                 var item = serialized_array[i];
