@@ -14,31 +14,35 @@
 			<div class="col-xs-12 col-md-6">
 				<h3>Master Data</h3><br>
 				<div class="row">
-					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
+					<div class="col-xs-4 col-md-3 yccl-icon-rotation">
 						<a data-toggle="modal" data-target="#unavailable">
 							<img class="img-responsive" src="assets/images/icon-package.png">
 							<p class="yccl-icon-text"><strong>Add/Edit<br>Centers</strong></p>
 						</a>
 					</div>
-					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
+					<div class="col-xs-4 col-md-3 yccl-icon-rotation">
 						<a data-toggle="modal" data-target="#unavailable">
 							<img class="img-responsive" src="assets/images/icon-package.png">
 							<p class="yccl-icon-text"><strong>Add/Edit<br>Doctors</strong></p>
 						</a>
 					</div>
-					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
+					<div class="col-xs-4 col-md-3 yccl-icon-rotation">
 						<a data-toggle="modal" data-target="#unavailable">
 							<img class="img-responsive" src="assets/images/icon-package.png">
 							<p class="yccl-icon-text"><strong>Add/Edit<br>Tests</strong></p>
 						</a>
 					</div>
-					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
-						<img class="img-responsive" src="assets/images/icon-package.png">
-						<p class="yccl-icon-text"><strong>Add/Edit<br>Profiles</strong></p>
+					<div class="col-xs-4 col-md-3 yccl-icon-rotation">
+						<a data-toggle="modal" data-target="#unavailable">
+							<img class="img-responsive" src="assets/images/icon-package.png">
+							<p class="yccl-icon-text"><strong>Add/Edit<br>Profiles</strong></p>
+						</a>
 					</div>
-					<div class="col-xs-6 col-md-3 yccl-icon-rotation">
-						<img class="img-responsive" src="assets/images/icon-package.png">
-						<p class="yccl-icon-text"><strong>Add/Edit<br>Packages</strong></p>
+					<div class="col-xs-4 col-md-3 yccl-icon-rotation">
+						<a href="list-packages.php">
+							<img class="img-responsive" src="assets/images/icon-package.png">
+							<p class="yccl-icon-text"><strong>Add/Edit<br>Packages</strong></p>
+						</a>
 					</div>
 				</div>
 			</div>

@@ -1,5 +1,6 @@
 <?php
     if(empty(session_id()))session_start();
+    date_default_timezone_set('Asia/Manila');
 	include 'config-file.php';
 
 
@@ -40,22 +41,25 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 
+        case 'edit-package':
+            $date = date('Y-m-d H:i:s');
+            $varPackageCode = $_POST['formPackageCode'];
+            $varPackageName = $_POST['formPackageName'];
+            $varPackageDescription = $_POST['formPackageDescription'];
+            $varPackagePrice = $_POST['formPackagePrice'];
 
-        case 'register-account':
-            $studentid = $_POST['studentid'];
-            $username = $_POST['username'];
-            $password = $_POST['password'];
-            $firstname = $_POST['firstname'];
-            $middlename = $_POST['middlename'];
-            $lastname = $_POST['lastname'];
-            $typeofaccount = $_POST['typeofaccount'];
-
-            $sql = "INSERT INTO accounts(idnumber, username, password, firstname, middlename, lastname, typeofaccount) VALUES ('$studentid', '$username', '$password', '$firstname', '$middlename', '$lastname', '$typeofaccount')";
+            $sql = "UPDATE package_category
+                    SET package_name='$varPackageName', 
+                        package_description='$varPackageDescription', 
+                        package_price='$varPackagePrice', 
+                        package_createdDate='$date'
+                    WHERE package_code='$varPackageCode'";
             $result = mysqli_query($con,$sql);
 
-            if($result) echo json_encode(['message' => 'Successfully created your account <b>'.$_POST['username'].'</b>']);
+            if($result) echo json_encode(['message' => 'Successfully updated the package details for <b>'.$_POST['formPackageCode'].'</b>']);
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
+
 
         case 'edit-account':
             $password = $_POST['password'];
@@ -87,41 +91,6 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 
-        case 'create-chapter':
-            $chaptername = $_POST['chaptername'];
-            $chapterdescription = $_POST['chapterdescription'];
-
-            $sql = "INSERT INTO chapter(chapter_name, chapter_description) VALUES ('$chaptername', '$chapterdescription')";
-            $result = mysqli_query($con,$sql);
-
-            if($result) echo json_encode(['message' => 'Successfully added chapter <b>'.$_POST['username'].'</b>']);
-            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
-            break;
-
-        case 'create-lesson':
-            $chapterid = $_POST['lessonchaptername'];
-            $lessonname = $_POST['lessonname'];
-            $lessondescription = $_POST['lessondescription'];
-
-            $sql = "INSERT INTO lesson(chapter_id, lesson_name, lesson_description) VALUES ('$chapterid', '$lessonname', '$lessondescription')";
-            $result = mysqli_query($con,$sql);
-
-            if($result) echo json_encode(['message' => 'Successfully added lesson <b>'.$_POST['username'].'</b>']);
-            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
-            break;
-
-        case 'check-quiz':
-            // $chapterid = $_POST['lessonchaptername'];
-            // $lessonname = $_POST['lessonname'];
-            // $lessondescription = $_POST['lessondescription'];
-
-            // $sql = "INSERT INTO lesson(chapter_id, lesson_name, lesson_description) VALUES ('$chapterid', '$lessonname', '$lessondescription')";
-            $result = mysqli_query($con,$sql);
-
-            if($result) echo json_encode(['message' => 'Successfully checked quiz <b>'.$_POST['username'].'</b>']);
-            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
-            break;
-        
         // Action Not Found
 
         default:

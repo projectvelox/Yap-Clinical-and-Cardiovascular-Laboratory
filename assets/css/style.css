@@ -42,3 +42,21 @@
 	text-align: center;
 	margin: 10px;
 }
+
+.yccl-mt-5 { margin-top: 50px}
+.yccl-mt-4 { margin-top: 40px}
+.yccl-mt-3 { margin-top: 30px}
+.yccl-mt-2 { margin-top: 20px}
+.yccl-mt-1 { margin-top: 10px}
+
+.yccl-mb-5 { margin-bottom: 50px}
+.yccl-mb-4 { margin-bottom: 40px}
+.yccl-mb-3 { margin-bottom: 30px}
+.yccl-mb-2 { margin-bottom: 20px}
+.yccl-mb-1 { margin-bottom: 10px}
+
+.yccl-m-5 { margin: 50px}
+.yccl-m-4 { margin: 40px}
+.yccl-m-3 { margin: 30px}
+.yccl-m-2 { margin: 20px}
+.yccl-m-1 { margin: 10px}
