@@ -89,7 +89,7 @@
                             pi_referencerange='$varTestReferenceRange',
                             pi_unit='$varTestUnit',
                             pi_createdDate='$date'
-                            WHERE package_id='$varPackageId'";
+                            WHERE package_id='$varPackageId' & pi_code='$varTestCode'";
                    
                     $resultUpdate = mysqli_query($con,$sqlUpdate);
 
