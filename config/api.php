@@ -69,24 +69,10 @@
             $varPackageDescriptionNew = $_POST['formPackageDescriptionNew'];
             $varPackagePriceNew = $_POST['formPackagePriceNew'];
 
-            $sql = "INSERT INTO package_category(
-                        package_code, 
-                        package_name, 
-                        package_description, 
-                        package_price, 
-                        package_createdDate, 
-                        package_status) 
-                    VALUES(
-                        '$varPackageCodeNew', 
-                        '$varPackageNameNew', 
-                        '$varPackageDescriptionNew', 
-                        '$varPackagePriceNew', 
-                        '$date', 
-                        '2'
-                    )";
+            $sql = "INSERT INTO package_category(package_code, package_name, package_description, package_price, package_createdDate, package_status) VALUES('$varPackageCodeNew', '$varPackageNameNew', '$varPackageDescriptionNew', '$varPackagePriceNew', '$date', '2')";
             $result = mysqli_query($con,$sql);
 
-            if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formPackageCodeNew  '].'</b> to the list of packages']);
+            if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formPackageCodeNew'].'</b> to the list of packages']);
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 

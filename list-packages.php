@@ -61,7 +61,7 @@
 		                <!-- Submit -->
 		                <button type="submit"
 		                        class="btn btn-primary">
-		                    Edit Package
+		                    Add Package
 		                </button>
 		            </form>
 				</div>
@@ -268,6 +268,11 @@
 
         // Submit Registration Form
 		$('#PackageFormNew').on('submit', function (e) {
+
+			// Package declaration for location change
+			$varPackageCodeNew = $('input[name=formPackageCodeNew]').val();
+        	$varPackageNameNew = $('input[name=formPackageNameNew]').val();
+
 			$('#modalCreateForm').modal('hide');
 
             e.preventDefault();
@@ -290,7 +295,8 @@
                         if(data.error) Dialog.alert('Insertion of Package Errors: ' + data.error[0], data.error[1]);
                         else Dialog.alert('Added the Package Successfully', data.message,
                         	function(OK) { 
-                        		RefreshTable(); 
+                        		RefreshTable();
+                        		location.href='list-packages-item.php?name=' + $varPackageCodeNew + '& status=2' + '& package=' + $varPackageNameNew;
                         	});
                     }).catch(function (error) {
                         Dialog.alert('Insertion of Package Error', error.statusText || 'Server Error');
