@@ -8,8 +8,81 @@
 
 <body>
 	<?php include 'views/partials/navbar.php'?>
+	<!-- Create Form -->
+	<div id="modalCreateForm" class="modal fade" role="dialog">
+		<div class="modal-dialog">
 
-		<!-- Modal -->
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title">Add a new package</span></h4>
+				</div>
+				<div class="modal-body">
+					<form id="PackageFormNew">
+						<!-- Form Package Code-->
+		                <div class="form-group">
+		                    <input type="text"
+		                           class="form-control"
+		                           name="formPackageCodeNew"
+		                           placeholder="Enter package code"
+		                           required
+		                    >
+		                </div>
+
+		                <!-- Form Package Name-->
+		                <div class="form-group">
+		                    <input type="text"
+		                           class="form-control"
+		                           name="formPackageNameNew"
+		                           placeholder="Enter package name"
+		                           required
+		                    >
+		                </div>
+
+		                <!-- Form Package Description-->
+		                <div class="form-group">
+		                    <input type="text"
+		                           class="form-control"
+		                           name="formPackageDescriptionNew"
+		                           placeholder="Enter package description"
+		                           required
+		                    >
+		                </div>
+
+		                <!-- Form Package Price -->
+		                <div class="form-group">
+		                    <input type="number"
+		                           class="form-control"
+		                           name="formPackagePriceNew"
+		                           placeholder="Enter package price"
+		                           required
+		                    >
+		                </div>
+
+		                <!-- Form Package Price -->
+		                <div class="form-group">
+		                    <input type="number"
+		                           class="form-control"
+		                           name="formPackagePriceNew"
+		                           placeholder="Enter package price"
+		                           required
+		                    >
+		                </div>
+		                
+		                <hr>
+		                <!-- Submit -->
+		                <button type="submit"
+		                        class="btn btn-primary">
+		                    Edit Package
+		                </button>
+		            </form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Edit Form -->
 	<div id="modalEditForm" class="modal fade" role="dialog">
 		<div class="modal-dialog">
 
@@ -85,44 +158,58 @@
 	</ul>
 
 	<div class="container yccl-mt-3">
-		<h2><?php echo $getPackageCode; ?> - Add/Edit Tests</h2><hr>
-		<div class="row">
-			<div class="table-responsive">          
-				<table class="table table-striped" id="tblPackages">
-					<thead>
-						<tr>
-							<th>#</th>
-							<th>Test Name</th>
-							<th>Test Description</th>
-							<th>Last Modified</th>
-							<th>Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php 
-						$i=0;
-						$con = mysqli_connect("localhost","root","","yccl");
-						$result = mysqli_query($con,"SELECT * FROM view_packagelisting WHERE package_code = '$getPackageCode'");
-						while($row = mysqli_fetch_array($result))
-						{
-							$i++;
-							echo "<tr>";
-							echo "<td>" . $i . "</td>";
-							echo "<td>" . $row['pi_name'] . "</td>";
-							echo "<td style='width:550px;'>" . $row['pi_description'] . "</td>";
-							echo "<td>" . date('d-M-Y g:i A', strtotime($row['pi_createdDate'])) . "</td>";
-							echo "
-							<td>
-								<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-name='".$row['pi_name']."' data-test-description='".$row['pi_description']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
-							</td>";
-							echo "</tr>";
-						}
-						mysqli_close($con);
-						?>
-					</tbody>
-				</table>
+		<h2><?php 
+			$status=$_GET['status'];
+			if($status=="1") {
+				echo $getPackageCode . " - Add/Edit Tests <span class='badge badge-danger'>Disabled</span>"; 
+			}
+			if($status=="2") {
+				echo $getPackageCode . " - Add/Edit Tests <span class='badge badge-success'>Active</span>"; 
+			}
+		?> </h2>
+		<div class="text-right">
+			<div class="yccl-display-inlineblock text-left">
+				<p class="yccl-mb-0"><strong>Action:</strong></p>
+				<button class="btn btn-xs btn-primary" data-toggle="modal" data-target="#modalCreateForm">Add a new package</button>
 			</div>
+		</div><hr>
+
+		<div class="table-responsive">          
+			<table class="table table-striped" id="tblPackages">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Test Name</th>
+						<th>Test Description</th>
+						<th>Last Modified</th>
+						<th>Edit</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php 
+					$i=0;
+					$con = mysqli_connect("localhost","root","","yccl");
+					$result = mysqli_query($con,"SELECT * FROM view_packagelisting WHERE package_code = '$getPackageCode'");
+					while($row = mysqli_fetch_array($result))
+					{
+						$i++;
+						echo "<tr>";
+						echo "<td>" . $i . "</td>";
+						echo "<td>" . $row['pi_name'] . "</td>";
+						echo "<td style='width:550px;'>" . $row['pi_description'] . "</td>";
+						echo "<td>" . date('d-M-Y g:i A', strtotime($row['pi_createdDate'])) . "</td>";
+						echo "
+						<td>
+							<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' data-test-name='".$row['pi_name']."' data-test-description='".$row['pi_description']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+						</td>";
+						echo "</tr>";
+					}
+					mysqli_close($con);
+					?>
+				</tbody>
+			</table>
 		</div>
+
 	</div>
 	<script type="text/javascript">
 		$(document).ready(function () {
