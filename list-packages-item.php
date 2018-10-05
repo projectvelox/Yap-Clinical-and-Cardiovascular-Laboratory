@@ -36,7 +36,9 @@
 										while($row = mysqli_fetch_array($result))
 										{
 											$testcode = $row['test_code'];
-											echo "<option data-test-code='".$testcode."'>" . $testcode .  "</option>";
+											$testname = $row['test_name'];
+											$testprice = $row['test_price'];
+											echo "<option data-test-code='".$testcode."'>" . $testcode . " - " .  $testname . " (₱" . number_format($testprice,2). ")</option>";
 										}
 										echo "</table>";
 										mysqli_close($con);
