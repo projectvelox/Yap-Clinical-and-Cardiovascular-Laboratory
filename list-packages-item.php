@@ -1,3 +1,6 @@
+<?php 
+	$getPackageCode = $_GET['name'];
+?>
 <!DOCTYPE html>
 <html>
 <!-- Head -->
@@ -63,21 +66,21 @@
 
 	<ul class="breadcrumb">
 		<li><a href="admin-dashboard.php">Dashboard</a></li>
-		<li>Add/Edit Packages</li>
+		<li><a href="list-packages.php">Add/Edit Packages</a></li>
+		<li><?php echo $getPackageCode; ?></li>
 	</ul>
 
 	<div class="container yccl-mt-3">
-		<h2>Add/Edit Packages</h2><hr>
+		<h2><?php echo $getPackageCode; ?> - Add/Edit Tests</h2><hr>
 		<div class="row">
 			<div class="table-responsive">          
 				<table class="table table-striped" id="tblPackages">
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Package Code</th>
-							<th>Package Name</th>
-							<th>Price</th>
-							<th>Last Modified Time</th>
+							<th>Test Name</th>
+							<th>Test Description</th>
+							<th>Last Modified</th>
 							<th>Action</th>
 						</tr>
 					</thead>
@@ -85,19 +88,18 @@
 						<?php 
 						$i=0;
 						$con = mysqli_connect("localhost","root","","yccl");
-						$result = mysqli_query($con,"SELECT * FROM package_category");
+						$result = mysqli_query($con,"SELECT * FROM view_packagelisting WHERE package_code = '$getPackageCode'");
 						while($row = mysqli_fetch_array($result))
 						{
 							$i++;
 							echo "<tr>";
 							echo "<td>" . $i . "</td>";
-							echo "<td><button class='btn-xs btn btn-primary'>" . $row['package_code'] . "</button></td>";
-							echo "<td>" . $row['package_name'] . "</td>";
-							echo "<td>" . number_format($row['package_price'], 2) . "</td>";
-							echo "<td>" . date('d-M-Y g:i A', strtotime($row['package_createdDate'])) . "</td>";
+							echo "<td>" . $row['pi_name'] . "</td>";
+							echo "<td>" . $row['pi_description'] . "</td>";
+							echo "<td>" . date('m-d-Y g:i A', strtotime($row['pi_createdDate'])) . "</td>";
 							echo "
 							<td>
-								<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-description='".$row['package_description']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
+								<button class='btn btn-xs btn-primary' data-id='".$row['package_code']."' data-name='".$row['package_name']."' data-price='".$row['package_price']."' id='editModalPackage'><span class='glyphicon glyphicon-pencil'></span></button>
 							</td>";
 							echo "</tr>";
 						}

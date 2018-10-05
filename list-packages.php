@@ -91,7 +91,7 @@
 							$i++;
 							echo "<tr>";
 							echo "<td>" . $i . "</td>";
-							echo "<td><button class='btn-xs btn btn-primary'>" . $row['package_code'] . "</button></td>";
+							echo "<td><a class='btn-xs btn btn-primary' href='list-packages-item.php?name=".$row['package_code']."'>" . $row['package_code'] . "</a></td>";
 							echo "<td>" . $row['package_name'] . "</td>";
 							echo "<td>" . number_format($row['package_price'], 2) . "</td>";
 							echo "<td>" . date('d-M-Y g:i A', strtotime($row['package_createdDate'])) . "</td>";
