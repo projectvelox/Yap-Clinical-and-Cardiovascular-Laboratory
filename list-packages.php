@@ -67,7 +67,9 @@
 	</ul>
 
 	<div class="container yccl-mt-3">
-		<h2>Add/Edit Packages</h2><hr>
+		<h2>Add/Edit Packages</h2>
+		<button class="btn btn-xs btn-primary">Add a new package</button>
+		<hr>
 		<div class="row">
 			<div class="table-responsive">          
 				<table class="table table-striped" id="tblPackages">
