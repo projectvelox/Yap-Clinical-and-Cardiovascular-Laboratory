@@ -62,6 +62,58 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 
+        case 'add-package-item':
+            $date = date('Y-m-d H:i:s');
+            $varTestCode = $_POST['formTestCodeNew'];
+            $varPackageId = $_POST['formPackageIdNew'];
+
+            $sqlRetrieve = "
+                SELECT * 
+                FROM test_details
+                WHERE test_code='$varTestCode'
+            ";
+
+            $result = mysqli_query($con,$sqlRetrieve);
+            if($result) {
+                $testdetails = mysqli_fetch_assoc($result);
+                if($testdetails) {
+                    $varTestName = $testdetails['test_name'];
+                    $varTestPrice = $testdetails['test_price'];
+                    $varTestReferenceRange = $testdetails['test_referencerange'];
+                    $varTestUnit = $testdetails['test_unit'];
+
+                    $sqlUpdate = "INSERT INTO package_item(pi_code, 
+                                pi_name, 
+                                pi_price, 
+                                pi_referencerange, 
+                                pi_unit, 
+                                pi_createdDate, 
+                                pi_status,
+                                package_id) 
+
+                                VALUES(
+                                '$varTestCode', 
+                                '$varTestName',
+                                '$varTestPrice',
+                                '$varTestReferenceRange',
+                                '$varTestUnit',
+                                '$date',
+                                '2',
+                                '$varPackageId')";
+                   
+                    $resultUpdate = mysqli_query($con,$sqlUpdate);
+
+                    if($resultUpdate) echo json_encode(['message' => 'Successfully added the test code: <b>'.$varTestCode.'</b>']);
+                    else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+                }
+
+                else {
+                    echo json_encode(['error' => ['WRONG_TESTCODE', 'Test code does not exist.']]);
+                }
+            }
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
         case 'edit-package-item':
             $date = date('Y-m-d H:i:s');
             $varPackageItemId = $_POST['formPackageItemId'];

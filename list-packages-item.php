@@ -1,4 +1,5 @@
-<?php 					
+<?php
+	$getPackageId = $_GET['id']; 					
 	$getPackageCode = $_GET['name'];
 	$getPackageName = $_GET['package'];
 	$getPackageStatus = $_GET['status']; 
@@ -22,12 +23,20 @@
 				</div>
 				<div class="modal-body">
 					<form id="PackageFormNew">
+						<!-- Form Package Id-->
+		                <div class="form-group">
+		                    <input type="hidden"
+		                           class="form-control"
+		                           name="formPackageIdNew"
+		                           value="<?php echo $getPackageId?>">
+		                </div>
+
 						<!-- Form Package Code-->
 		                <div class="form-group">
 						    <label>Test Code</label>
 							<select class="form-control" 
 									  required
-									  name="formPackageCodeNew"
+									  name="formTestCodeNew"
 							>
 							    <option disabled selected>Please select an option below</option>
 							    <?php
@@ -38,7 +47,7 @@
 											$testcode = $row['test_code'];
 											$testname = $row['test_name'];
 											$testprice = $row['test_price'];
-											echo "<option data-test-code='".$testcode."'>" . $testcode . " - " .  $testname . " (₱" . number_format($testprice,2). ")</option>";
+											echo "<option value='".$testcode."' data-test-code='".$testcode."'>" . $testcode . " - " .  $testname . " (₱" . number_format($testprice,2). ")</option>";
 										}
 										echo "</table>";
 										mysqli_close($con);
@@ -70,7 +79,7 @@
 				<div class="modal-body">
 					<form id="PackageForm">
 
-						<!-- Form Package Code-->
+						<!-- Form PI Id-->
 		                <div class="form-group">
 		                    <input type="hidden"
 		                           class="form-control"
@@ -170,9 +179,9 @@
 			</div>
 			<div class="yccl-display-inlineblock text-left">
 				<p class="yccl-mb-0"><strong>Sort By:</strong></p>
-				<a href="list-packages-item.php?testStatus=0&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>" class="btn btn-xs btn-info">View All</a>
-				<a href="list-packages-item.php?testStatus=1&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>" class="btn btn-xs btn-success">Active</a>
-				<a href="list-packages-item.php?testStatus=2&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>" class="btn btn-xs btn-danger">Disabled</a>
+				<a href="list-packages-item.php?testStatus=0&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>&id=<?php echo $getPackageId?>" class="btn btn-xs btn-info">View All</a>
+				<a href="list-packages-item.php?testStatus=1&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>&id=<?php echo $getPackageId?>" class="btn btn-xs btn-success">Active</a>
+				<a href="list-packages-item.php?testStatus=2&name=<?php echo $getPackageCode?>&package=<?php echo $getPackageName?>&status=<?php echo $getPackageStatus?>&id=<?php echo $getPackageId?>" class="btn btn-xs btn-danger">Disabled</a>
 			</div>
 		</div><hr>
 
@@ -235,10 +244,6 @@
             buttonClass: 'btn-primary'
         });
 
-        function RefreshTable() {
-		    $("#tblPackageItems").load("list-packages-item.php? #tblPackageItems");
-		}
-
         // Retrieve the data for the packages
         $(document).on("click", "#editModalPackage", function() { 
         	$varPackageItemId = $(this).data("packageitemid");
@@ -261,9 +266,50 @@
         });
 
         // Submit Registration Form
+		$('#PackageFormNew').on('submit', function (e) {
+			$varPackageCode= $('input[name=formPackageCode]').val();
+        	$varPackageName = $('input[name=formPackageName]').val();
+        	$varPackageStatus = <?php echo $getPackageStatus?>;
+
+			$('#modalCreateForm').modal('hide');
+
+            e.preventDefault();
+            var serialized_array = $(this).serializeArray();
+            var data = {
+                action: 'add-package-item'
+            };
+            for(var i = 0; i < serialized_array.length; i++) {
+                var item = serialized_array[i];
+                data[item.name] = item.value;
+            }
+            Dialog.confirm('Are you sure?', 'Are you sure you want to add test details?', function (yes) {
+                if(yes) {
+                    var preloader = new Dialog.preloader('Updating');
+                    $.ajax({
+                        type: 'POST',
+                        url: 'config/api.php',
+                        data: data
+                    }).then(function(data) {
+                        if(data.error) Dialog.alert('Adding Package Error: ' + data.error[0], data.error[1]);
+                        else Dialog.alert('Adding Package Successful', data.message,
+                        	function(OK) { 
+                        		//$("#tblPackageItems").load("list-packages-item.php?status="+$varPackageStatus+"&name='"+$varPackageCode+"' & package='" +$varPackageName+"' &testStatus=0" + " #tblPackageItems"); 
+                        });
+                    }).catch(function (error) {
+                        Dialog.alert('Adding Package Error', error.statusText || 'Server Error');
+                    }).always(function () {
+                        preloader.destroy();
+                    });
+                }
+            });
+        });
+
+        // Submit Registration Form
 		$('#PackageForm').on('submit', function (e) {
 			$varPackageCode= $('input[name=formPackageCode]').val();
         	$varPackageName = $('input[name=formPackageName]').val();
+        	$varPackageId = <?php echo $getPackageId?>;
+        	$varPackageStatus = <?php echo $getPackageStatus?>;
 
 			$('#modalEditForm').modal('hide');
 
@@ -287,7 +333,7 @@
                         if(data.error) Dialog.alert('Updating Package Error: ' + data.error[0], data.error[1]);
                         else Dialog.alert('Updating Package Successful', data.message,
                         	function(OK) { 
-                        		$("#tblPackageItems").load("list-packages-item.php?testStatus=0&name="+$varPackageCode+"&package="+$varPackageName+"&status=0 #tblPackageItems"); 
+                        		$("#tblPackageItems").load("list-packages-item.php?status="+$varPackageStatus+"&name='"+$varPackageCode+"' & package='" +$varPackageName+"' &testStatus=0&id=" + varPackageId + " #tblPackageItems"); 
                         });
                     }).catch(function (error) {
                         Dialog.alert('Updating Package Error', error.statusText || 'Server Error');
