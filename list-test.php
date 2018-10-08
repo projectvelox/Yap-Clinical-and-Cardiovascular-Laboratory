@@ -59,7 +59,7 @@
 
 		                <!-- Form Test Price -->
 		                <div class="form-group">
-		                    <input type="number"
+		                    <input type="number" step="0.01"
 		                           class="form-control"
 		                           name="formTestPriceNew"
 		                           placeholder="Enter test price"
@@ -134,7 +134,7 @@
 
 		                <!-- Form Test Price -->
 		                <div class="form-group">
-		                    <input type="number"
+		                    <input type="number" step="0.01"
 		                           class="form-control"
 		                           name="formTestPrice"
 		                           placeholder="Enter test price"
@@ -155,7 +155,7 @@
 
 	<ul class="breadcrumb">
 		<li><a href="admin-dashboard.php">Dashboard</a></li>
-		<li>Add/Edit Packages</li>
+		<li>Add/Edit Test</li>
 	</ul>
 
 	<div class="container yccl-mt-3">

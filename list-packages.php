@@ -49,7 +49,7 @@
 
 		                <!-- Form Package Price -->
 		                <div class="form-group">
-		                    <input type="number"
+		                    <input type="number" step="0.01"
 		                           class="form-control"
 		                           name="formPackagePriceNew"
 		                           placeholder="Enter package price"
@@ -142,7 +142,7 @@
 		                <!-- Form Package Price -->
 		                <div class="form-group">
 		                	<label>Package Price</label>
-		                    <input type="text"
+		                    <input type="number" step="0.01"
 		                           class="form-control"
 		                           name="formPackagePrice"
 		                           placeholder="Enter package price" 
