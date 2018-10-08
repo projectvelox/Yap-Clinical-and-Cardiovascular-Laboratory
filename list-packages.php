@@ -57,11 +57,40 @@
 		                    >
 		                </div>
 
+		                <!-- Form Package Code-->
+		                <div class="form-group">
+						    <label>Test Code</label>
+							<select class="form-control" 
+									  required
+									  name="formTestCodeNew"
+							>
+							    <option disabled selected>Please select an option below</option>
+							    <?php
+									$con = mysqli_connect("localhost","root","","yccl");	
+									$result = mysqli_query($con,"SELECT * FROM test_details");
+										while($row = mysqli_fetch_array($result))
+										{
+											$testcode = $row['test_code'];
+											$testname = $row['test_name'];
+											$testprice = $row['test_price'];
+											echo "<option value='".$testcode."' data-test-code='".$testcode."'>" . $testcode . " - " .  $testname . " (₱" . number_format($testprice,2). ")</option>";
+										}
+										echo "</table>";
+										mysqli_close($con);
+								?>
+							</select>
+						</div>
+
 		                <hr>
 		                <!-- Submit -->
 		                <button type="submit"
 		                        class="btn btn-primary">
 		                    Add Package
+		                </button>
+
+		                <button type="button" id="addTest" 
+		                        class="btn btn-primary">
+		                    Add Test
 		                </button>
 		            </form>
 				</div>
@@ -222,6 +251,22 @@
             buttonClass: 'btn-primary'
         });
 
+        $testcodeArray = [];
+
+        /*$('select[name=formTestCodeNew]').change(function(){
+		   	$testcode = $('select[name=formTestCodeNew]').val();
+		   	$testcodeArray = [];
+		   	$testcodeArray.push($testcode);
+		});*/	
+
+		// Retrieve the data for the packages
+        $(document).on("click", "#addTest", function() { 
+		   	$testcode = $('select[name=formTestCodeNew]').val();
+		   	$testcodeArray.push($testcode)
+		   	alert($testcodeArray.toString())
+        });
+
+
         function RefreshTable() {
 		    $("#tblPackages").load("list-packages.php #tblPackages");
 		}
@@ -335,7 +380,7 @@
                         else Dialog.alert('Added the Package Successfully', data.message,
                         	function(OK) { 
                         		RefreshTable();
-                        		location.href='list-packages-item.php?name=' + $varPackageCodeNew + '& status=2' + '& package=' + $varPackageNameNew;
+                        		//location.href='list-packages-item.php?name=' + $varPackageCodeNew + '& status=2' + '& package=' + $varPackageNameNew;
                         	});
                     }).catch(function (error) {
                         Dialog.alert('Insertion of Package Error', error.statusText || 'Server Error');

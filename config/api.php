@@ -160,6 +160,7 @@
         
 
         case 'add-package':
+            
             $date = date('Y-m-d H:i:s');
             $varPackageCodeNew = $_POST['formPackageCodeNew'];
             $varPackageNameNew = $_POST['formPackageNameNew'];
@@ -172,6 +173,42 @@
             if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formPackageCodeNew'].'</b> to the list of packages']);
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
+
+        case 'add-test':
+            
+            $date = date('Y-m-d H:i:s');
+            $formTestCodeNew = $_POST['formTestCodeNew'];
+            $formTestNameNew = $_POST['formTestNameNew'];
+            $formTestReferenceRangeNew = $_POST['formTestReferenceRangeNew'];
+            $formTestUnitNew = $_POST['formTestUnitNew'];
+            $formTestPriceNew = $_POST['formTestPriceNew'];
+
+            $sql = "INSERT INTO test_details(test_code, test_name, test_referencerange, test_unit, test_price) VALUES('$formTestCodeNew', '$formTestNameNew', '$formTestReferenceRangeNew', '$formTestUnitNew', '$formTestPriceNew')";
+            $result = mysqli_query($con,$sql);
+
+            if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formTestCodeNew'].'</b> to the list of packages']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
+        case 'edit-test':
+            $varTestCode = $_POST['formTestCode'];
+            $formTestName = $_POST['formTestName'];
+            $formTestReferenceRange= $_POST['formTestReferenceRange'];
+            $formTestUnit = $_POST['formTestUnit'];
+            $formTestPrice = $_POST['formTestPrice'];
+
+            $sql = "UPDATE test_details
+                    SET test_name='$formTestName', 
+                        test_referencerange='$formTestReferenceRange', 
+                        test_unit='$formTestUnit',
+                        test_price='$formTestPrice'
+                    WHERE test_code='$varTestCode'";
+            $result = mysqli_query($con,$sql);
+
+            if($result) echo json_encode(['message' => 'Successfully updated the test details']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
 
         case 'delete-package':
             $packageId = $_POST['packageid'];

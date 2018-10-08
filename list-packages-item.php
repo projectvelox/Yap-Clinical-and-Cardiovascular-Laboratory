@@ -19,7 +19,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Add a new package</span></h4>
+					<h4 class="modal-title">Add a test</span></h4>
 				</div>
 				<div class="modal-body">
 					<form id="PackageFormNew">
@@ -322,7 +322,7 @@
                 var item = serialized_array[i];
                 data[item.name] = item.value;
             }
-            Dialog.confirm('Are you sure?', 'Are you sure you want to edit this package details?', function (yes) {
+            Dialog.confirm('Are you sure?', 'Are you sure you want to edit this test?', function (yes) {
                 if(yes) {
                     var preloader = new Dialog.preloader('Updating');
                     $.ajax({
@@ -330,13 +330,13 @@
                         url: 'config/api.php',
                         data: data
                     }).then(function(data) {
-                        if(data.error) Dialog.alert('Updating Package Error: ' + data.error[0], data.error[1]);
-                        else Dialog.alert('Updating Package Successful', data.message,
+                        if(data.error) Dialog.alert('Updating Test Error: ' + data.error[0], data.error[1]);
+                        else Dialog.alert('Updating Test Successful', data.message,
                         	function(OK) { 
                         		$("#tblPackageItems").load("list-packages-item.php?status="+$varPackageStatus+"&name='"+$varPackageCode+"' & package='" +$varPackageName+"' &testStatus=0&id=" + varPackageId + " #tblPackageItems"); 
                         });
                     }).catch(function (error) {
-                        Dialog.alert('Updating Package Error', error.statusText || 'Server Error');
+                        Dialog.alert('Updating Test Error', error.statusText || 'Server Error');
                     }).always(function () {
                         preloader.destroy();
                     });
