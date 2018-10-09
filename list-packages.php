@@ -18,7 +18,7 @@
 				<div class="modal-body">
 					<form id="PackageFormNew">
 						<!-- Form Package Code-->
-		                <div class="form-group">
+		                <div class="form-group hiddenFormGroup">
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackageCodeNew"
@@ -28,7 +28,7 @@
 		                </div>
 
 		                <!-- Form Package Name-->
-		                <div class="form-group">
+		                <div class="form-group hiddenFormGroup">
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackageNameNew"
@@ -38,7 +38,7 @@
 		                </div>
 
 		                <!-- Form Package Description-->
-		                <div class="form-group">
+		                <div class="form-group hiddenFormGroup">
 		                    <input type="text"
 		                           class="form-control"
 		                           name="formPackageDescriptionNew"
@@ -48,7 +48,7 @@
 		                </div>
 
 		                <!-- Form Package Price -->
-		                <div class="form-group">
+		                <div class="form-group hiddenFormGroup">
 		                    <input type="number" step="0.01"
 		                           class="form-control"
 		                           name="formPackagePriceNew"
@@ -56,7 +56,7 @@
 		                           required
 		                    >
 		                </div>
-		                <div class="form-group">
+		                <div class="form-group hiddenCheckbox">
 		                	<label>Select the tests</label>
 
 		                	<?php
@@ -76,8 +76,13 @@
 		                	
 		                </div><hr>
 		                <!-- Submit -->
-		                <button type="submit"
-		                        class="btn btn-primary addPackageClass">
+		                <button type="button"
+		                        class="btn btn-primary hiddenButton">
+		                    Add the tests
+		                </button>
+		                <!-- Submit -->
+		                <button type="submit "
+		                        class="btn btn-primary addPackageClass hiddenSubmit">
 		                    Add Package
 		                </button>
 		            </form>
@@ -239,6 +244,18 @@
             buttonClass: 'btn-primary'
         });
 
+        //$(".hiddenFormGroup").hide();
+		$(".hiddenCheckbox").hide();
+		//$(".hiddenButton").hide();
+		$(".hiddenSubmit").hide();
+
+		$(document).on("click", ".hiddenButton", function() { 
+			$(".hiddenCheckbox").show();
+			$(".hiddenSubmit").show();
+			$(".hiddenFormGroup").hide();
+			$(".hiddenButton").hide();
+		});
+
         function RefreshTable() {
 		    $("#tblPackages").load("list-packages.php #tblPackages");
 		}
@@ -369,6 +386,10 @@
                         else Dialog.alert('Added the Package Successfully', data.message,
                         	function(OK) { 
                         		RefreshTable();
+                        		$(".hiddenCheckbox").hide();
+								$(".hiddenSubmit").hide();
+								$(".hiddenFormGroup").show();
+								$(".hiddenButton").show();
                         		//location.href='list-packages-item.php?name=' + $varPackageCodeNew + '& status=2' + '& package=' + $varPackageNameNew;
                         	});
                     }).catch(function (error) {
