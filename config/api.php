@@ -158,20 +158,27 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
         
-
         case 'add-package':
             
             $date = date('Y-m-d H:i:s');
-            $varPackageCodeNew = $_POST['formPackageCodeNew'];
+
+            echo "asd";
+            /* $varPackageCodeNew = $_POST['formPackageCodeNew'];
             $varPackageNameNew = $_POST['formPackageNameNew'];
             $varPackageDescriptionNew = $_POST['formPackageDescriptionNew'];
             $varPackagePriceNew = $_POST['formPackagePriceNew'];
+            
+            
+            $value = $_POST['formTestDetails'];
+            $query="INSERT INTO package_item(pi_code) VALUES('$value')";
+            $results = mysqli_query($con,$query);
+        
 
             $sql = "INSERT INTO package_category(package_code, package_name, package_description, package_price, package_createdDate, package_status) VALUES('$varPackageCodeNew', '$varPackageNameNew', '$varPackageDescriptionNew', '$varPackagePriceNew', '$date', '2')";
             $result = mysqli_query($con,$sql);
 
             if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formPackageCodeNew'].'</b> to the list of packages']);
-            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]); */
             break;
 
         case 'add-test':
@@ -187,6 +194,41 @@
             $result = mysqli_query($con,$sql);
 
             if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formTestCodeNew'].'</b> to the list of packages']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
+        case 'add-center':
+
+            $formCenterName = $_POST['formCenterName'];
+            $formCenterAddress = $_POST['formCenterAddress'];
+            $formCenterContact = $_POST['formCenterContact'];
+            $formCenterDiscount = $_POST['formCenterDiscount'];
+
+            $sql = "INSERT INTO center_details(center_name, center_address, center_contact, center_status, center_discount) VALUES('$formCenterName', '$formCenterAddress', '$formCenterContact', '2' ,'$formCenterDiscount')";
+            $result = mysqli_query($con,$sql);
+
+            if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formCenterName'].'</b> to the list of center']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+
+            break;
+
+        case 'edit-center':
+            $formCenterNameEdit = $_POST['formCenterNameEdit'];
+            $formCenterAddressEdit = $_POST['formCenterAddressEdit'];
+            $formCenterContactEdit= $_POST['formCenterContactEdit'];
+            $formCenterDiscountEdit = $_POST['formCenterDiscountEdit'];
+            $formCenterId = $_POST['formCenterId'];
+
+            $sql = "UPDATE center_details
+                    SET
+                        center_name='$formCenterNameEdit',
+                        center_address='$formCenterAddressEdit', 
+                        center_contact='$formCenterContactEdit',
+                        center_discount='$formCenterDiscountEdit'
+                    WHERE center_id='$formCenterId'";
+            $result = mysqli_query($con,$sql);
+
+            if($result) echo json_encode(['message' => 'Successfully updated the center details']);
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 

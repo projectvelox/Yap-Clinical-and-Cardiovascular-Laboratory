@@ -56,41 +56,29 @@
 		                           required
 		                    >
 		                </div>
-
-		                <!-- Form Package Code-->
 		                <div class="form-group">
-						    <label>Test Code</label>
-							<select class="form-control" 
-									  required
-									  name="formTestCodeNew"
-							>
-							    <option disabled selected>Please select an option below</option>
-							    <?php
+		                	<label>Select the tests</label>
+
+		                	<?php
 									$con = mysqli_connect("localhost","root","","yccl");	
 									$result = mysqli_query($con,"SELECT * FROM test_details");
-										while($row = mysqli_fetch_array($result))
-										{
-											$testcode = $row['test_code'];
-											$testname = $row['test_name'];
-											$testprice = $row['test_price'];
-											echo "<option value='".$testcode."' data-test-code='".$testcode."'>" . $testcode . " - " .  $testname . " (₱" . number_format($testprice,2). ")</option>";
-										}
-										echo "</table>";
-										mysqli_close($con);
-								?>
-							</select>
-						</div>
-
-		                <hr>
+									while($row = mysqli_fetch_array($result))
+									{
+										$testcode = $row['test_code'];
+										$testname = $row['test_name'];
+										$testprice = $row['test_price'];
+										echo"<div class='checkbox'>
+											    <label><input type='checkbox' name='formTestDetails' value='".$testcode."'>".$testcode. ' - ' . $testname. " (₱" . number_format($testprice,2) . ")</label>
+											</div>";
+									}
+									mysqli_close($con);
+		                	?> 
+		                	
+		                </div><hr>
 		                <!-- Submit -->
 		                <button type="submit"
-		                        class="btn btn-primary">
+		                        class="btn btn-primary addPackageClass">
 		                    Add Package
-		                </button>
-
-		                <button type="button" id="addTest" 
-		                        class="btn btn-primary">
-		                    Add Test
 		                </button>
 		            </form>
 				</div>
@@ -251,22 +239,6 @@
             buttonClass: 'btn-primary'
         });
 
-        $testcodeArray = [];
-
-        /*$('select[name=formTestCodeNew]').change(function(){
-		   	$testcode = $('select[name=formTestCodeNew]').val();
-		   	$testcodeArray = [];
-		   	$testcodeArray.push($testcode);
-		});*/	
-
-		// Retrieve the data for the packages
-        $(document).on("click", "#addTest", function() { 
-		   	$testcode = $('select[name=formTestCodeNew]').val();
-		   	$testcodeArray.push($testcode)
-		   	alert($testcodeArray.toString())
-        });
-
-
         function RefreshTable() {
 		    $("#tblPackages").load("list-packages.php #tblPackages");
 		}
@@ -321,10 +293,15 @@
 		$('#PackageForm').on('submit', function (e) {
 			$('#modalEditForm').modal('hide');
 
+			/* var arr = [];
+			$('input[name=formTestDetails]:checkbox:checked').each(function () {
+			    arr.push($(this).val());
+			}); */
+
             e.preventDefault();
             var serialized_array = $(this).serializeArray();
             var data = {
-                action: 'edit-package'
+                action: 'edit-package',
             };
             for(var i = 0; i < serialized_array.length; i++) {
                 var item = serialized_array[i];
@@ -336,7 +313,9 @@
                     $.ajax({
                         type: 'POST',
                         url: 'config/api.php',
-                        data: data
+                        data: {
+                        	data: data
+                        }
                     }).then(function(data) {
                         if(data.error) Dialog.alert('Updating Package Error: ' + data.error[0], data.error[1]);
                         else Dialog.alert('Updating Package Successful', data.message,
@@ -357,13 +336,29 @@
 			$varPackageCodeNew = $('input[name=formPackageCodeNew]').val();
         	$varPackageNameNew = $('input[name=formPackageNameNew]').val();
 
-			$('#modalCreateForm').modal('hide');
+			//$('#modalCreateForm').modal('hide');
 
+			var arr = [];
+			$('input[name=formTestDetails]:checkbox:checked').each(function () {
+			    arr.push($(this).val());
+			});
+
+			/*
+			$.ajax({type:"POST",url:"config/ajax.php",
+				data: {
+					action:"add-package"
+				},
+			    }).then(function(data) {
+			    	alert(data);
+			    }); */
+			
             e.preventDefault();
             var serialized_array = $(this).serializeArray();
             var data = {
-                action: 'add-package'
+                action: 'add-package',
+                arr:arr
             };
+
             for(var i = 0; i < serialized_array.length; i++) {
                 var item = serialized_array[i];
                 data[item.name] = item.value;
@@ -373,7 +368,7 @@
                     var preloader = new Dialog.preloader('Adding package to the list');
                     $.ajax({
                         type: 'POST',
-                        url: 'config/api.php',
+                        url: 'config/ajax.php',
                         data: data
                     }).then(function(data) {
                         if(data.error) Dialog.alert('Insertion of Package Errors: ' + data.error[0], data.error[1]);
@@ -388,7 +383,7 @@
                         preloader.destroy();
                     });
                 }
-            });
+            }); 
         });
     });
 		
