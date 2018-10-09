@@ -20,22 +20,23 @@
 							<img class="img-responsive" src="assets/images/icon-package.png">
 							<p class="yccl-icon-text"><strong>Add/Edit<br>Centers</strong></p>
 						</a>
-					</div> <!--
+					</div>
+
 					<div class="col-xs-4 col-md-3 yccl-icon-rotation">
-						<a data-toggle="modal" data-target="#unavailable">
+						<a href="list-doctors.php">
 							<img class="img-responsive" src="assets/images/icon-package.png">
 							<p class="yccl-icon-text"><strong>Add/Edit<br>Doctors</strong></p>
 						</a>
 					</div> 
 
+
 					<div class="col-xs-4 col-md-3 yccl-icon-rotation">
-						<a data-toggle="modal" data-target="#unavailable">
+						<a href="list-profiles.php">
 							<img class="img-responsive" src="assets/images/icon-package.png">
 							<p class="yccl-icon-text"><strong>Add/Edit<br>Profiles</strong></p>
 						</a>
 					</div>
 
-					-->
 					<div class="col-xs-4 col-md-3 yccl-icon-rotation">
 						<a href="list-test.php">
 							<img class="img-responsive" src="assets/images/icon-package.png">

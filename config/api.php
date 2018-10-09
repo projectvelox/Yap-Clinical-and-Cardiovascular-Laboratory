@@ -3,10 +3,8 @@
     date_default_timezone_set('Asia/Manila');
 	include 'config-file.php';
 
-
     header('Content-Type: application/json');
 	switch ($_POST["action"]) {
-
 
         // Login Account
         case 'login-account':
@@ -59,6 +57,126 @@
             $result = mysqli_query($con,$sql);
 
             if($result) echo json_encode(['message' => 'Successfully updated the package details for <b>'.$_POST['formPackageCode'].'</b>']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
+
+        case 'edit-profiles':
+            $date = date('Y-m-d H:i:s');
+
+            $varProfileCode = $_POST['formProfileCode'];
+            $varProfileName = $_POST['formProfileName'];
+            $varProfilePrice = $_POST['formProfilePrice'];
+            $varProfileStatus = $_POST['formProfileStatus'];
+
+            $sql = "UPDATE profile_details
+                    SET profile_name='$varProfileName', 
+                        profile_price='$varProfilePrice', 
+                        profile_status='$varProfileStatus'
+                    WHERE profile_code='$varProfileCode'";
+            $result = mysqli_query($con,$sql);
+
+            if($result) echo json_encode(['message' => 'Successfully updated the profile details for <b>'.$_POST['formProfileCode'].'</b>']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
+        case 'delete-profile':
+            $profileid = $_POST['profileid'];
+
+            $sqlPackage = "DELETE FROM profile_details WHERE profile_id='$profileid'";;
+            
+            $resultPackage = mysqli_query($con,$sqlPackage);
+
+            if($resultPackage) echo json_encode(['message' => 'Successfully deleted the profile']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
+        case 'add-profile-item':
+            $date = date('Y-m-d H:i:s');
+            $varTestCode = $_POST['formTestCodeNew'];
+            $varPackageId = $_POST['formPackageIdNew'];
+
+            $sqlRetrieve = "
+                SELECT * 
+                FROM test_details
+                WHERE test_code='$varTestCode'
+            ";
+
+            $result = mysqli_query($con,$sqlRetrieve);
+            if($result) {
+                $testdetails = mysqli_fetch_assoc($result);
+                if($testdetails) {
+                    $varTestName = $testdetails['test_name'];
+                    $varTestPrice = $testdetails['test_price'];
+                    $varTestReferenceRange = $testdetails['test_referencerange'];
+                    $varTestUnit = $testdetails['test_unit'];
+
+                    $sqlUpdate = "INSERT INTO profile_item(pi_code, 
+                                pi_name, 
+                                pi_price, 
+                                pi_referencerange, 
+                                pi_unit, 
+                                profile_id) 
+
+                                VALUES(
+                                '$varTestCode', 
+                                '$varTestName',
+                                '$varTestPrice',
+                                '$varTestReferenceRange',
+                                '$varTestUnit',
+                                '$varPackageId')";
+                   
+                    $resultUpdate = mysqli_query($con,$sqlUpdate);
+
+                    if($resultUpdate) echo json_encode(['message' => 'Successfully added the test code: <b>'.$varTestCode.'</b>']);
+                    else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+                }
+
+                else {
+                    echo json_encode(['error' => ['WRONG_TESTCODE', 'Test code does not exist.']]);
+                }
+            }
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
+        case 'edit-profile-item':
+            $date = date('Y-m-d H:i:s');
+            $varPackageItemId = $_POST['formPackageItemId'];
+            $varTestCode = $_POST['formTestCode'];
+
+            $sqlRetrieve = "
+                SELECT * 
+                FROM test_details
+                WHERE test_code='$varTestCode'
+            ";
+
+            $result = mysqli_query($con,$sqlRetrieve);
+            if($result) {
+                $testdetails = mysqli_fetch_assoc($result);
+                if($testdetails) {
+                    $varTestName = $testdetails['test_name'];
+                    $varTestPrice = $testdetails['test_price'];
+                    $varTestReferenceRange = $testdetails['test_referencerange'];
+                    $varTestUnit = $testdetails['test_unit'];
+
+                    $sqlUpdate = "UPDATE profile_item
+                            SET pi_code='$varTestCode', 
+                            pi_name='$varTestName',
+                            pi_price='$varTestPrice',
+                            pi_referencerange='$varTestReferenceRange',
+                            pi_unit='$varTestUnit'
+                            WHERE pi_id='$varPackageItemId'";
+                   
+                    $resultUpdate = mysqli_query($con,$sqlUpdate);
+
+                    if($resultUpdate) echo json_encode(['message' => 'Successfully updated the profile details for <b>'.$_POST['formTestCode'].'</b>']);
+                    else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+                }
+
+                else {
+                    echo json_encode(['error' => ['WRONG_TESTCODE', 'Test code does not exist.']]);
+                }
+            }
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 
@@ -158,28 +276,6 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
         
-        case 'add-package':
-            
-            $date = date('Y-m-d H:i:s');
-
-            echo "asd";
-            /* $varPackageCodeNew = $_POST['formPackageCodeNew'];
-            $varPackageNameNew = $_POST['formPackageNameNew'];
-            $varPackageDescriptionNew = $_POST['formPackageDescriptionNew'];
-            $varPackagePriceNew = $_POST['formPackagePriceNew'];
-            
-            
-            $value = $_POST['formTestDetails'];
-            $query="INSERT INTO package_item(pi_code) VALUES('$value')";
-            $results = mysqli_query($con,$query);
-        
-
-            $sql = "INSERT INTO package_category(package_code, package_name, package_description, package_price, package_createdDate, package_status) VALUES('$varPackageCodeNew', '$varPackageNameNew', '$varPackageDescriptionNew', '$varPackagePriceNew', '$date', '2')";
-            $result = mysqli_query($con,$sql);
-
-            if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formPackageCodeNew'].'</b> to the list of packages']);
-            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]); */
-            break;
 
         case 'add-test':
             
@@ -232,6 +328,41 @@
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
 
+        case 'add-doctor':
+
+            $formDoctorName = $_POST['formDoctorName'];
+            $formDoctorAddress = $_POST['formDoctorAddress'];
+            $formDoctorContact = $_POST['formDoctorContact'];
+            $formDoctorDiscount = $_POST['formDoctorDiscount'];
+
+            $sql = "INSERT INTO doctor_details(doctor_name, doctor_address, doctor_contact, doctor_status, doctor_discount) VALUES('$formDoctorName', '$formDoctorAddress', '$formDoctorContact', '2' ,'$formDoctorDiscount')";
+            $result = mysqli_query($con,$sql);
+
+            if($result) echo json_encode(['message' => 'Successfully added <b>'.$_POST['formDoctorName'].'</b> to the list of doctor']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+
+            break;
+
+        case 'edit-doctor':
+            $formDoctorNameEdit = $_POST['formDoctorNameEdit'];
+            $formDoctorAddressEdit = $_POST['formDoctorAddressEdit'];
+            $formDoctorContactEdit= $_POST['formDoctorContactEdit'];
+            $formDoctorDiscountEdit = $_POST['formDoctorDiscountEdit'];
+            $formDoctorId = $_POST['formDoctorId'];
+
+            $sql = "UPDATE doctor_details
+                    SET
+                        doctor_name='$formDoctorNameEdit',
+                        doctor_address='$formDoctorAddressEdit', 
+                        doctor_contact='$formDoctorContactEdit',
+                        doctor_discount='$formDoctorDiscountEdit'
+                    WHERE doctor_id='$formDoctorId'";
+            $result = mysqli_query($con,$sql);
+
+            if($result) echo json_encode(['message' => 'Successfully updated the doctor details']);
+            else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
+            break;
+
         case 'edit-test':
             $varTestCode = $_POST['formTestCode'];
             $formTestName = $_POST['formTestName'];
@@ -264,6 +395,9 @@
             if($resultPackage) echo json_encode(['message' => 'Successfully deleted the package <b>'.$_POST['packageid'].'</b>']);
             else echo json_encode(['error' => ['DB_ERROR', mysqli_error($con)]]);
             break;
+
+
+
 
 
         case 'edit-account':

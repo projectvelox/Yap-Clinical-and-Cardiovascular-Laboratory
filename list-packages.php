@@ -293,29 +293,22 @@
 		$('#PackageForm').on('submit', function (e) {
 			$('#modalEditForm').modal('hide');
 
-			/* var arr = [];
-			$('input[name=formTestDetails]:checkbox:checked').each(function () {
-			    arr.push($(this).val());
-			}); */
-
             e.preventDefault();
-            var serialized_array = $(this).serializeArray();
-            var data = {
-                action: 'edit-package',
-            };
-            for(var i = 0; i < serialized_array.length; i++) {
-                var item = serialized_array[i];
-                data[item.name] = item.value;
-            }
+	    	var serialized_array = $(this).serializeArray();
+	    	var data = {
+	    		action: 'edit-package'
+	    	};
+	    	for(var i = 0; i < serialized_array.length; i++) {
+	    		var item = serialized_array[i];
+	    		data[item.name] = item.value;
+	    	}
             Dialog.confirm('Are you sure?', 'Are you sure you want to edit this package details?', function (yes) {
                 if(yes) {
                     var preloader = new Dialog.preloader('Updating');
                     $.ajax({
                         type: 'POST',
                         url: 'config/api.php',
-                        data: {
-                        	data: data
-                        }
+                        data: data
                     }).then(function(data) {
                         if(data.error) Dialog.alert('Updating Package Error: ' + data.error[0], data.error[1]);
                         else Dialog.alert('Updating Package Successful', data.message,
@@ -331,7 +324,8 @@
 
         // Submit Registration Form
 		$('#PackageFormNew').on('submit', function (e) {
-
+			$('#modalCreateForm').modal('hide');
+			
 			// Package declaration for location change
 			$varPackageCodeNew = $('input[name=formPackageCodeNew]').val();
         	$varPackageNameNew = $('input[name=formPackageNameNew]').val();
