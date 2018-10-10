@@ -52,6 +52,17 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-xs-12 col-md-3">
+				<h3>General</h3><br>
+				<div class="row">
+					<div class="col-xs-4 col-md-6 yccl-icon-rotation">
+						<a href="patient-profiling.php">
+							<img class="img-responsive" src="assets/images/icon-package.png">
+							<p class="yccl-icon-text"><strong>Invoice</strong></p>
+						</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

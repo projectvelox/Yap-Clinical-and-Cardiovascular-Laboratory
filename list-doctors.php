@@ -53,7 +53,7 @@
 					<!-- Form Doctor Discount -->
 					<div class="form-group">
 						<label>Discount Percentage (%)</label>
-						<input type="number" step="0.01"
+						<input type="number"
 						class="form-control"
 						name="formDoctorDiscount"
 						placeholder="Enter discount percentage"
