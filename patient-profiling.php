@@ -198,9 +198,9 @@
 		</div>
 		<hr>
 		<div class="row">
-			<div class="col-xs-12 col-md-4">
+			<div class="col-xs-12 col-md-3">
 				<div class="form-group">
-                	<label>Select the tests you want to include</label>
+                	<label>Select test/s</label>
                 	<?php
 							$con = mysqli_connect("localhost","root","","yccl");	
 							$result = mysqli_query($con,"SELECT * FROM test_details");
@@ -217,9 +217,25 @@
                 	?> 
                 </div>
 			</div>
-			<div class="col-xs-12 col-md-4">
+			<div class="col-xs-12 col-md-3">
 				<div class="form-group">
-                	<label>Select the packages you want to include</label>
+                	<label>Select profile/s</label>
+                	<?php
+							$con = mysqli_connect("localhost","root","","yccl");	
+							$result = mysqli_query($con,"SELECT * FROM profile_details");
+							while($row = mysqli_fetch_array($result))
+							{
+								echo"<div class='checkbox'>
+									    <label><input type='checkbox' name='formProfileDetails' data-price='".$row['profile_price']."' value='".$row['profile_id']."'>".$row['profile_name']. " (₱" . number_format($row['profile_price'],2) . ")</label>
+									</div>";
+							}
+							mysqli_close($con);
+                	?> 
+                </div>
+			</div>
+			<div class="col-xs-12 col-md-3">
+				<div class="form-group">
+                	<label>Select package/s</label>
                 	<?php
 							$con = mysqli_connect("localhost","root","","yccl");	
 							$result = mysqli_query($con,"SELECT * FROM package_category");
@@ -233,7 +249,7 @@
                 	?> 
                 </div>
 			</div>
-			<div class="col-xs-12 col-md-4">
+			<div class="col-xs-12 col-md-3">
 				<p><strong>Total Amount</strong></p>
 				<p id="totalAmount">₱ 0.00</p>
 				<p><strong>Discount</strong></p>
@@ -301,12 +317,16 @@
         $('#PackageForm').on('submit', function (e) {
         	var arrTest = [];
         	var arrPackage = [];
+        	var arrProfile = [];
 
 			$('input[name=formTestDetails]:checkbox:checked').each(function () {
 			    arrTest.push($(this).val());
 			});
 			$('input[name=formPackageDetails]:checkbox:checked').each(function () {
 			    arrPackage.push($(this).val());
+			});
+			$('input[name=formProfileDetails]:checkbox:checked').each(function () {
+			    arrProfile.push($(this).val());
 			});
 
 
@@ -317,6 +337,7 @@
 				netPrice: $netPrice.toFixed(2),
 				arrTest:arrTest,
 				arrPackage:arrPackage,
+				arrProfile: arrProfile,
         		action: 'add-invoice'
         	};
         	for(var i = 0; i < serialized_array.length; i++) {

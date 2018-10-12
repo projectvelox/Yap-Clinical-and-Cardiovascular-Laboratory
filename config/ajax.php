@@ -226,6 +226,37 @@ switch ($_POST["action"]) {
     $packageQuery="INSERT INTO patient_package(package_id, package_code, package_name, package_price, package_description, invoice_id) VALUES('$varPackageId', '$varPackageCode', '$varPackageName', '$varPackagePrice', '$varPackageDescription', '$varInvoiceId')";
     $packageResults = mysqli_query($con,$packageQuery);
   }
+
+  $checkboxesProfiles = isset($_POST['arrProfile']) ? $_POST['arrProfile'] : array();
+  foreach ($checkboxesProfiles as $valueProfile) {
+    //Test Details
+    $sqlRetrieveProfile = "
+    SELECT * 
+    FROM profile_details
+    WHERE profile_id='$valueProfile'
+    ";
+    $resultprofile = mysqli_query($con,$sqlRetrieveProfile);
+    $profiledetails = mysqli_fetch_assoc($resultprofile);
+
+    $sqlRetrieveInvoice = "
+    SELECT * 
+    FROM patient_profile
+    ORDER BY invoice_id DESC
+    ";
+
+    $resultInvoice = mysqli_query($con,$sqlRetrieveInvoice);
+    $invoicedetails = mysqli_fetch_assoc($resultInvoice);
+    
+    //Variable Declarations
+    $varProfileId = $profiledetails['profile_id'];
+    $varProfileCode = $profiledetails['profile_code'];
+    $varProfileName = $profiledetails['profile_name'];
+    $varProfilePrice = $profiledetails['profile_price'];
+    $varInvoiceId = $invoicedetails['invoice_id'];
+
+    $profileQuery="INSERT INTO patient_profiles(profile_id, profile_code, profile_name, profile_price, invoice_id) VALUES('$varProfileId', '$varProfileCode', '$varProfileName', '$varProfilePrice', '$varInvoiceId')";
+    $profileResults = mysqli_query($con,$profileQuery);
+  }
   
 
   if($result) {
