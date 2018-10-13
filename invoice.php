@@ -64,7 +64,7 @@
 				echo "<br>
 					<h4><strong>Invoice Number:</strong> ".date('Y')."-INV".str_pad($row['invoice_id'], 5,'0',STR_PAD_LEFT)."</h4><hr>
 					<div class='row'>
-						<div class='col-xs-12 col-md-6'>
+						<div class='col-xs-12 col-md-5'>
 							<h4><strong>Invoice Details</strong></h4>
 							<p><strong>Date:</strong> ".date('d-M-Y g:i A', strtotime($row['invoice_date']))."</p>
 							<p><strong>Total Amount: </strong>" . $row['amount_total'] ."</p>
@@ -81,7 +81,7 @@
 							<p><strong>Doctor:</strong> ". $row['patient_doctor']."</p>
 						</div>
 					
-						<div class='col-xs-12 col-md-6'>
+						<div class='col-xs-12 col-md-7'>
 							<div class='row'>
 								<div class='col-xs-12 col-md-12'>
 									<h4><strong>Package</strong></h4>

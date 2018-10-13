@@ -72,9 +72,23 @@
 											</div>";
 									}
 									mysqli_close($con);
+		                	?>
+		                </div><hr class="hiddenCheckbox">
+		                <div class="form-group hiddenCheckbox">
+		                	<label>Select profile/s</label>
+		                	<?php
+									$con = mysqli_connect("localhost","root","","yccl");	
+									$result = mysqli_query($con,"SELECT * FROM profile_details");
+									while($row = mysqli_fetch_array($result))
+									{
+										echo"<div class='checkbox'>
+											    <label><input type='checkbox' name='formProfileDetails' data-price='".$row['profile_price']."' value='".$row['profile_id']."'>".$row['profile_name']. " (₱" . number_format($row['profile_price'],2) . ")</label>
+											</div>";
+									}
+									mysqli_close($con);
 		                	?> 
-		                	
-		                </div><hr>
+		                </div>	
+		                <hr>
 		                <!-- Submit -->
 		                <button type="button"
 		                        class="btn btn-primary hiddenButton">
@@ -350,9 +364,15 @@
 			//$('#modalCreateForm').modal('hide');
 
 			var arr = [];
+			var arrProfile = [];
+			
 			$('input[name=formTestDetails]:checkbox:checked').each(function () {
 			    arr.push($(this).val());
 			});
+			$('input[name=formProfileDetails]:checkbox:checked').each(function () {
+			    arrProfile.push($(this).val());
+			});
+
 
 			/*
 			$.ajax({type:"POST",url:"config/ajax.php",
@@ -367,7 +387,8 @@
             var serialized_array = $(this).serializeArray();
             var data = {
                 action: 'add-package',
-                arr:arr
+                arr:arr,
+                arrProfile:arrProfile
             };
 
             for(var i = 0; i < serialized_array.length; i++) {
